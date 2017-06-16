@@ -38,8 +38,8 @@ cc.Class({
         }
         this.canTouch = true;
         this.produceTreeRoot(this.lightList[touchIndex].position);
-        if(this.touchEndPos) {
-            this.deltaPos = cc.pSub(this.touchStartPos, this.touchEndPos);
+        if(this.lightList[touchIndex]) {
+            this.deltaPos = cc.pSub(this.touchStartPos, this.lightList[touchIndex].position);
         }
     },
     
@@ -56,8 +56,8 @@ cc.Class({
     
     onTouchEnd: function (event) {
         if(!this.canTouch) return;
-        this.touchEndPos = this.node.convertToNodeSpaceAR(event.getLocation());
-        this.produceLight(this.touchEndPos);
+        var touchEndPos = this.node.convertToNodeSpaceAR(event.getLocation());
+        this.produceLight(touchEndPos);
         this.treeRootIndex ++;
     },
 
