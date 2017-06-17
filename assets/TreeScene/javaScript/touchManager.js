@@ -7,7 +7,10 @@ cc.Class({
         lightNode: cc.Node,
         treeRootNode: cc.Node,
         holeNode: cc.Node,
-        holeRadius: 0
+        holeRadius: 0,
+        camera: cc.Node,
+        unitLength: [cc.Integer],
+        roundingNum: 0
     },
 
     onLoad: function () {
@@ -19,7 +22,6 @@ cc.Class({
         this.node.on("touchstart", this.onTouchStart, this);
         this.node.on("touchmove", this.onTouchMove, this);
         this.node.on("touchend", this.onTouchEnd, this);
-
     },
 
     onDestroy: function () {
@@ -51,10 +53,10 @@ cc.Class({
     
     onTouchMove: function (event) {
         if(!this.isTouchLight) {
-            // var detalX = event.getDeltaX();
-            // var detalY = event.getDeltaY();
-            // this.camera.x -= detalX;
-            // this.camera.y -= detalY;
+            var detalX = event.getDeltaX();
+            var detalY = event.getDeltaY();
+            this.camera.x -= detalX;
+            this.camera.y -= detalY;
             return;
         }
         event.stopPropagation();
@@ -64,7 +66,21 @@ cc.Class({
         var angle = cc.radiansToDegrees(- cc.pToAngle(newPos));
         this.treeRootList[this.treeRootIndex].rotation = angle;
         var distance = cc.pDistance(touchMovePos, this.touchStartPos);
+        var rootLength = 0;
+        for (var i = 0; i < this.unitLength.length; i++) {
+            rootLength+=this.unitLength[i];
+            if(distance < rootLength){
+                var ratio = (rootLength - distance) / this.unitLength[i];
+                if(ratio > this.roundingNum) {
+                    rootLength -= this.unitLength[i];
+                }
+                distance = rootLength;
+                break;
+            }
+        }
+        var rootStartPos = this.deltaPos ? cc.pSub(this.touchStartPos, this.deltaPos) : this.touchStartPos;
         this.treeRootList[this.treeRootIndex].width = distance;
+        this.endPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), distance));
     },
     
     onTouchEnd: function (event) {
@@ -74,13 +90,13 @@ cc.Class({
         for (var i = 0; i < this.treeRootLineList.length; i++) {
             var line = this.treeRootLineList[i];
             if(cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos)) {
-                this.canTouch = false;
                 this.treeRootList[this.treeRootIndex].removeFromParent();
                 this.treeRootList.splice(this.treeRootIndex, 1);
                 return;
             }
         }
-        this.produceLight(touchEndPos);
+        touchEndPos = this.endPos ? this.endPos : touchEndPos;
+        this.produceLight(this.endPos);
         var line = {startPos:this.touchStartPos, endPos: touchEndPos};
         this.treeRootLineList.push(line);
         this.treeRootIndex ++;
