@@ -4,7 +4,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        gainPerTick: 0,
+        waterPerTick: 0,
+        lightPerTick: 0,
         maxStorage: 0,
         waterMeter: ResourceMeter,
         lightMeter: ResourceMeter,
@@ -42,15 +43,30 @@ cc.Class({
     tick () {
         for (let i = 0; i < this.waterList.length; ++i) {
             let res = this.waterList[i];
-            if (res.isActive) {
-                res.updateVol(this.gainPerTick);
-                this.waterStorage += this.gainPerTick;
+            if (res.isActive && this.waterStorage < this.maxStorage) {
+                res.updateVol(this.waterPerTick);
+                this.waterStorage += this.waterPerTick;
                 this.waterMeter.updateProgress(this.waterStorage/ this.maxStorage);
                 if (this.waterStorage >= this.maxStorage) {
-                    this.waterMeter.onResFull1();
-                    this.waterStorage = 0;
+                    this.checkGainNutrition();
                 }
             }
         }
-    }
+        this.lightStorage += this.lightPerTick * this.leafCount;
+        this.lightMeter.updateProgress(this.lightStorage/this.maxStorage);
+        if (this.lightStorage >= this.maxStorage) {
+            this.checkGainNutrition();
+        }
+    },
+
+    checkGainNutrition () {
+        if (this.waterStorage >= this.maxStorage && this.lightStorage >= this.maxStorage) {
+            this.waterMeter.onResFull1();
+            this.waterStorage = 0;
+            this.lightMeter.onResFull1();
+            this.lightStorage = 0;
+            this.updateNutrition(1);
+        }
+    },
+
 });

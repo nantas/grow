@@ -9,15 +9,28 @@ cc.Class({
     properties: {
         resMng: ResourceMng,
         touchMng: TouchMng,
+        holes: [WaterTank],
         uiControl: UIControl,
         tickTime: 0,
-        secToYear: 0
+        secToYear: 0,
+        initNutrition: 0
     },
 
     // use this for initialization
     onLoad () {
         this.resMng.init();
         this.uiControl.init();
+
+        //TEST
+        for (let i = 0; i < this.holes.length; ++i) {
+            this.holes[i].init();
+            this.resMng.registerResource(this.holes[i]);
+        }
+        this.resMng.leafCount = 4;
+        this.resMng.updateNutrition(this.initNutrition);
+        this.uiControl.updateLeaf(this.resMng.leafCount);
+
+        this.touchMng.init(this);
         this.startLoop();
     },
 
@@ -34,6 +47,5 @@ cc.Class({
 
     pause () {
         cc.director.getScheduler().pauseTarget(this);
-
     }
 });
