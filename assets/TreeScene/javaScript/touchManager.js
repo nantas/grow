@@ -3,12 +3,14 @@ cc.Class({
 
     properties: {
         light: cc.Prefab,
-        treeRoot: cc.Prefab
+        treeRoot: cc.Prefab,
+        lightNode: cc.Node
     },
 
     onLoad: function () {
         this.lightList = [];
         this.treeRootList = [];
+        this.treeRootLineList = [];
         this.treeRootIndex = 0;
         this.produceLight(cc.p(0, cc.winSize.height / 2));
         this.node.on("touchstart", this.onTouchStart, this);
@@ -57,13 +59,24 @@ cc.Class({
     onTouchEnd: function (event) {
         if(!this.canTouch) return;
         var touchEndPos = this.node.convertToNodeSpaceAR(event.getLocation());
+        for (var i = 0; i < this.treeRootLineList.length; i++) {
+            var line = this.treeRootLineList[i];
+            if(cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos)) {
+                this.canTouch = false;
+                this.treeRootList[this.treeRootIndex].removeFromParent();
+                this.treeRootList.splice(this.treeRootIndex, 1);
+                return;
+            }
+        }
         this.produceLight(touchEndPos);
+        var line = {startPos:this.touchStartPos, endPos: touchEndPos};
+        this.treeRootLineList.push(line);
         this.treeRootIndex ++;
     },
 
     produceLight: function (pos) {
         var light = cc.instantiate(this.light);
-        light.parent = this.node;
+        light.parent = this.lightNode;
         light.position = pos;
         this.lightList.push(light);
     },
