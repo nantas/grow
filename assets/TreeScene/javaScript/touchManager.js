@@ -3,12 +3,16 @@ cc.Class({
 
     properties: {
         light: cc.Prefab,
-        treeRoot: cc.Prefab
+        treeRoot: cc.Prefab,
+        lightNode: cc.Node,
+        camera: cc.Node,
+        holeNode: cc.Node
     },
 
     onLoad: function () {
         this.lightList = [];
         this.treeRootList = [];
+        this.treeRootLineList = [];
         this.treeRootIndex = 0;
         this.produceLight(cc.p(0, cc.winSize.height / 2));
         this.node.on("touchstart", this.onTouchStart, this);
@@ -33,10 +37,11 @@ cc.Class({
             }
         }
         if(touchIndex === null) {
-            this.canTouch = false;
+            this.isTouchLight = false;
             return;
         }
-        this.canTouch = true;
+        event.stopPropagation();
+        this.isTouchLight = true;
         this.produceTreeRoot(this.lightList[touchIndex].position);
         if(this.lightList[touchIndex]) {
             this.deltaPos = cc.pSub(this.touchStartPos, this.lightList[touchIndex].position);
@@ -44,7 +49,14 @@ cc.Class({
     },
     
     onTouchMove: function (event) {
-        if(!this.canTouch) return;
+        if(!this.isTouchLight) {
+            var detalX = event.getDeltaX();
+            var detalY = event.getDeltaY();
+            this.camera.x -= detalX;
+            this.camera.y -= detalY;
+            return;
+        }
+        event.stopPropagation();
         var touchMovePos = this.node.convertToNodeSpaceAR(event.getLocation());
         var touchMovePos = this.deltaPos ? cc.pAdd(touchMovePos, this.deltaPos) : touchMovePos;
         var newPos = cc.pSub(this.touchStartPos, touchMovePos);
@@ -55,15 +67,31 @@ cc.Class({
     },
     
     onTouchEnd: function (event) {
-        if(!this.canTouch) return;
+        if(!this.isTouchLight) return;
+        event.stopPropagation();
         var touchEndPos = this.node.convertToNodeSpaceAR(event.getLocation());
+        for (var i = 0; i < this.treeRootLineList.length; i++) {
+            var line = this.treeRootLineList[i];
+            if(cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos)) {
+                this.canTouch = false;
+                this.treeRootList[this.treeRootIndex].removeFromParent();
+                this.treeRootList.splice(this.treeRootIndex, 1);
+                return;
+            }
+        }
         this.produceLight(touchEndPos);
+        var line = {startPos:this.touchStartPos, endPos: touchEndPos};
+        this.treeRootLineList.push(line);
         this.treeRootIndex ++;
+        // for (var j = 0; j < this.holeNode.children.length; j++) {
+        //     var obj = this.holeNode.children[j];
+        //
+        // }
     },
 
     produceLight: function (pos) {
         var light = cc.instantiate(this.light);
-        light.parent = this.node;
+        light.parent = this.lightNode;
         light.position = pos;
         this.lightList.push(light);
     },
