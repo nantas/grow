@@ -8,7 +8,8 @@ cc.Class({
         treeRootNode: cc.Node,
         holeNode: cc.Node,
         holeRadius: 0,
-        camera: cc.Node,
+        rootNodeRadius: 0,
+        camera: cc.Camera,
         unitLength: [cc.Integer],
         roundingNum: 0,
     },
@@ -18,10 +19,11 @@ cc.Class({
         this.treeRootList = [];
         this.treeRootLineList = [];
         this.treeRootIndex = 0;
-        this.produceLight(cc.p(0, cc.winSize.height / 2));
+        this.produceLight(cc.p(0, -20));
         this.node.on("touchstart", this.onTouchStart, this);
         this.node.on("touchmove", this.onTouchMove, this);
         this.node.on("touchend", this.onTouchEnd, this);
+        this.lastTotalFrames = -1;
     },
 
     onDestroy: function () {
@@ -35,7 +37,8 @@ cc.Class({
         var touchIndex = null;
         for (var i = 0; i < this.lightList.length; i++) {
             var obj = this.lightList[i];
-            if(obj.getBoundingBox().contains(this.touchStartPos)){
+            if (cc.pDistance(obj.position, this.touchStartPos) <= this.rootNodeRadius) {
+            // if(obj.getBoundingBox().contains(this.touchStartPos)){
                 touchIndex = i;
             }
         }
@@ -52,13 +55,52 @@ cc.Class({
     },
     
     onTouchMove: function (event) {
-        if(!this.isTouchLight) {
-            var detalX = event.getDeltaX();
-            var detalY = event.getDeltaY();
-            this.camera.x -= detalX;
-            this.camera.y -= detalY;
+        //zoom
+        // let totalFrames = cc.director.getTotalFrames();
+        // if (this.lastTotalFrames !== totalFrames) {
+            // this.lastTotalFrames = totalFrames;
+        cc.log(this.camera.zoomRatio);
+        let touches = event.getTouches();
+        if (touches.length >= 2) {
+            let touch1 = touches[0], touch2 = touches[1];
+            let delta1 = touch1.getDelta(), delta2 = touch2.getDelta();
+
+            var touchPoint1 = this.node.parent.convertToNodeSpaceAR(touch1.getLocation());
+            var touchPoint2 = this.node.parent.convertToNodeSpaceAR(touch2.getLocation());
+            //缩放
+            var distance = cc.pSub(touchPoint1, touchPoint2);
+            var delta = cc.pSub(delta1, delta2);
+            var zoomRatio = 1;
+            if (Math.abs(distance.x) > Math.abs(distance.y)) {
+                zoomRatio = (distance.x + delta.x) / distance.x * this.camera.zoomRatio;
+            }
+            else {
+                zoomRatio = (distance.y + delta.y) / distance.y * this.camera.zoomRatio;
+            }
+            this.camera.zoomRatio = zoomRatio < 0.1 ? 0.1 : zoomRatio;
             return;
         }
+        // }
+
+        var deltaX = event.getDeltaX();
+        var deltaY = event.getDeltaY();
+
+        if(!this.isTouchLight) {
+            this.camera.node.x -= deltaX;
+            this.camera.node.y -= deltaY;
+            return;
+        }
+
+        var screenPos = event.getLocation();
+        if ((deltaX > 0 && screenPos.x > (this.node.width - 100)) ||
+            (deltaX < 0 && screenPos.x < 100) || 
+            (deltaY > 0 && screenPos.y > (this.node.height - 80)) ||
+            (deltaY < 0 && screenPos.y < 80)) 
+        {
+            this.camera.node.x += deltaX;
+            this.camera.node.y += deltaY;
+        }
+
         event.stopPropagation();
         var touchMovePos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         var touchMovePos = this.deltaPos ? cc.pAdd(touchMovePos, this.deltaPos) : touchMovePos;
