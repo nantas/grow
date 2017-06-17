@@ -15,7 +15,8 @@ cc.Class({
         uiControl: UIControl,
         tickTime: 0,
         secToYear: 0,
-        initNutrition: 0
+        initNutrition: 0,
+        rootLengthProportion: 0
     },
 
     // use this for initialization
@@ -50,7 +51,7 @@ cc.Class({
     },
     
     setRootLength (rootLength) {
-        this.rootLength+=rootLength;
+        this.rootLength += rootLength / this.rootLengthProportion;
         this.uiControl.updateRootLength(this.rootLength);
     },
 
