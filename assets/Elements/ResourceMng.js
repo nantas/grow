@@ -42,6 +42,7 @@ cc.Class({
                 this.waterMeter.updateProgress(this.waterStorage/ this.maxStorage);
                 if (this.waterStorage >= this.maxStorage) {
                     this.waterMeter.onResFull1();
+                    this.waterStorage = 0;
                 }
             }
         }

@@ -18,6 +18,7 @@ cc.Class({
     init (resMng) {
         this.resMng = resMng;
         this.flash.active = false;
+        this.updateProgress(0);
     },
 
     updateProgress (ratio) {
@@ -25,7 +26,9 @@ cc.Class({
     },
 
     onResFull1 () {
-        Tween.to(this.flash, this.showDuration, {
+        this.flash.active = true;
+        this.flash.opacity = 0;
+        Tween.to(this.flash, this.flashDuration, {
             opacity: 255,
             easing: Power2.easeIn,
             onComplete: this.onResFull2.bind(this)
@@ -34,7 +37,7 @@ cc.Class({
 
     onResFull2 () {
         this.resMng.resetMeter(this.resType);
-        Tween.to(this.flash, this.showDuration, {
+        Tween.to(this.flash, this.flashDuration, {
             opacity: 0,
             easing: Power2.easeOut
         });

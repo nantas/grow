@@ -3,8 +3,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        progress:cc.ProgressBar,
-        flash: cc.Node,
+        progressBar:cc.ProgressBar,
+        // flashNode: cc.Node,
         initVolume:0,
         showDuration:0
     },
@@ -14,6 +14,7 @@ cc.Class({
         if (vol) {
             this.initVolume = vol;
         }
+        this.flashNode = this.node.getChildByName('water-flash');
         this.curVolume = this.initVolume;
         this.updateProgress();
         this.node.active = false;
@@ -21,8 +22,8 @@ cc.Class({
 
     show () {
         this.node.active = true;
-        this.flash.opacity = 255;
-        Tween.to(this.flash, this.showDuration, {
+        this.flashNode.opacity = 255;
+        Tween.to(this.flashNode, this.showDuration, {
             opacity: 0
         });
     },
@@ -41,7 +42,7 @@ cc.Class({
     },
 
     updateProgress () {
-        this.progress.progress = this.curVolume / this.initVolume;
+        this.progressBar.progress = this.curVolume / this.initVolume;
     }
 
     // called every frame, uncomment this function to activate update callback
