@@ -20,7 +20,7 @@ cc.Class({
 
     // use this for initialization
     onLoad () {
-        this.spawner.init();
+        this.spawner.init(this);
         this.resMng.init();
         this.uiControl.init();
 

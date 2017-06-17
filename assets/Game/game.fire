@@ -5247,7 +5247,6 @@
       "__id__": 15
     },
     "holeRadius": 120,
-    "waterActiveRadius": 70,
     "rootNodeRadius": 100,
     "camera": {
       "__id__": 132
@@ -5274,7 +5273,7 @@
         "__id__": 2
       }
     ],
-    "zoomRatio": 0.2
+    "zoomRatio": 1
   },
   {
     "__type__": "cc.Node",

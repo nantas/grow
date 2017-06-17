@@ -8,7 +8,7 @@ cc.Class({
         treeRootNode: cc.Node,
         holeNode: cc.Node,
         holeRadius: 0,
-        waterActiveRadius: 0,
+        // waterActiveRadius: 0,
         rootNodeRadius: 0,
         camera: cc.Camera,
         unitLength: [cc.Integer],
@@ -127,12 +127,14 @@ cc.Class({
         this.treeRootLineList.push(line);
         this.treeRootIndex ++;
         this.game.resMng.updateNutrition(-this.curRootUnits);
-        for (let j = 0; j < this.game.holes.length; j++) {
-            let hole = this.game.holes[j];
-            let lineDist = cc.Intersection.pointLineDistance(hole.node.position, startPos, touchEndPos, true);
+        for (let j = 0; j < this.game.spawner.locList.length; j++) {
+            let pos = this.game.spawner.locList[j];
+            let lineDist = cc.Intersection.pointLineDistance(pos, startPos, this.lightPos, true);
             if( lineDist > this.holeRadius) continue;
-            hole.show();
-            if ( lineDist < this.waterActiveRadius) {
+            this.game.spawner.locList.splice(j, 1);
+            let hole = this.game.spawner.spawnRandomHole(pos);
+            let bbox = hole.node.getBoundingBox();
+            if (cc.Intersection.lineRect(startPos, this.lightPos, bbox)) {
                 hole.activate();
             }
         }

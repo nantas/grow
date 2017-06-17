@@ -17,11 +17,12 @@ cc.Class({
         this.flashNode = this.node.getChildByName('water-flash');
         this.curVolume = this.initVolume;
         this.updateProgress();
-        this.node.active = false;
+        // this.node.active = false;
+        this.show();
     },
 
     show () {
-        this.node.active = true;
+        // this.node.active = true;
         this.flashNode.opacity = 255;
         Tween.to(this.flashNode, this.showDuration, {
             opacity: 0
@@ -29,7 +30,9 @@ cc.Class({
     },
 
     activate () {
-        this.isActive = true;
+        if (!this.isActive) {
+            this.isActive = true;
+        }
     },
 
     updateVol (delta) {

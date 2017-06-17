@@ -25,9 +25,9 @@ cc.Class({
 
     spawnLocationsFromRegion() {
         let regions = this.regionRoot.children;
-        for (let i = 0; i < this.regions.length; ++i) {
-            let pos = this.regions[i].position;
-            this.regionList[i].active = false;
+        for (let i = 0; i < regions.length; ++i) {
+            let pos = regions[i].position;
+            regions[i].active = false;
             pos.x += this.randomRange * 2 * ( Math.random() - 0.5);
             pos.y += this.randomRange * 2 * ( Math.random() - 0.5);
             this.locList.push(pos);
@@ -37,34 +37,26 @@ cc.Class({
         }
     },
 
-    // spawnLocations () {
-    //     for (let i = 0; i < this.distLevels.length - 1; ++i) {
-    //         this.startDist = this.distLevels[i];
-    //         this.endDist = this.distLevels[i+1];
-    //         let lastPos = null;
-    //         let countForLevel = this.countForLevel[i];
-    //         let angleUnit = 180/countForLevel;
-    //         for (let i = 0; i < countForLevel; ++i) {
-    //             let angle = (i  + Math.random()) * angleUnit;
-    //             let pos = cc.pForAngle(angle * Math.PI / 180);
-    //             pos.y = -pos.y;
-    //             pos = cc.pMult(pos, this.startDist + Math.random() * (this.endDist - this.startDist));
-    //             if (pos.y > -150) {
-    //                 pos.y = -150;
-    //             }
-    //             if (lastPos && cc.pDistance(lastPos, pos) <= this.minDist) {
-    //                 lastPos = pos;
-    //                 continue;
-    //             }
-    //             let ph = cc.instantiate(this.icon);
-    //             this.layer.addChild(ph);
-    //             ph.setPosition(pos);
-    //             lastPos = pos;
-    //         }
-    //     }
-    // },
+    spawnRandomHole(pos) {
+        //replace this
+        return this.spawnWaterTank(pos);
+    },
 
-    spawnWaterTank () {
+    spawnRock(pos) {
 
+    },
+
+    spawnNutrition(pos) {
+
+    },
+
+    spawnWaterTank (pos) {
+        let waterN = cc.instantiate(this.waterTankPrefab);
+        let water = waterN.getComponent('WaterTank');
+        this.layer.addChild(waterN);
+        waterN.position = pos;
+        water.init();
+        this.game.resMng.registerWater(water);
+        return water;
     }
 });
