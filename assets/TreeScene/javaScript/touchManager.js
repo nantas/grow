@@ -28,7 +28,7 @@ cc.Class({
     },
     
     onTouchStart: function (event) {
-        this.touchStartPos = this.node.convertToNodeSpaceAR(event.getLocation());
+        this.touchStartPos = this.node.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         var touchIndex = null;
         for (var i = 0; i < this.lightList.length; i++) {
             var obj = this.lightList[i];
@@ -57,7 +57,7 @@ cc.Class({
             return;
         }
         event.stopPropagation();
-        var touchMovePos = this.node.convertToNodeSpaceAR(event.getLocation());
+        var touchMovePos = this.node.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         var touchMovePos = this.deltaPos ? cc.pAdd(touchMovePos, this.deltaPos) : touchMovePos;
         var newPos = cc.pSub(this.touchStartPos, touchMovePos);
         var angle = cc.radiansToDegrees(- cc.pToAngle(newPos));
@@ -69,7 +69,7 @@ cc.Class({
     onTouchEnd: function (event) {
         if(!this.isTouchLight) return;
         event.stopPropagation();
-        var touchEndPos = this.node.convertToNodeSpaceAR(event.getLocation());
+        var touchEndPos = this.node.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         for (var i = 0; i < this.treeRootLineList.length; i++) {
             var line = this.treeRootLineList[i];
             if(cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos)) {
