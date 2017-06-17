@@ -23,7 +23,7 @@ cc.Class({
         this.updateNutrition(0);
     },
 
-    registerResource (res) {
+    registerWater (res) {
         this.waterList.push(res);
     },
 

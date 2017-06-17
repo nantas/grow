@@ -2,12 +2,14 @@ const ResourceMng = require('ResourceMng');
 const WaterTank = require('WaterTank');
 const TouchMng = require('touchManager');
 const UIControl = require('UIControl');
+const Spawner = require('Spawner');
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
         resMng: ResourceMng,
+        spawner: Spawner,
         touchMng: TouchMng,
         holes: [WaterTank],
         uiControl: UIControl,
@@ -18,13 +20,14 @@ cc.Class({
 
     // use this for initialization
     onLoad () {
+        this.spawner.init();
         this.resMng.init();
         this.uiControl.init();
 
         //TEST
         for (let i = 0; i < this.holes.length; ++i) {
             this.holes[i].init();
-            this.resMng.registerResource(this.holes[i]);
+            this.resMng.registerWater(this.holes[i]);
         }
         this.resMng.leafCount = 4;
         this.resMng.updateNutrition(this.initNutrition);

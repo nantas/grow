@@ -15,7 +15,7 @@ cc.Class({
         for (let i = 0; i < this.waterTanks.length; ++i) {
             let waterTank = this.waterTanks[i];
             waterTank.init();
-            this.resMng.registerResource(waterTank);
+            this.resMng.registerWater(waterTank);
         }
     },
 
