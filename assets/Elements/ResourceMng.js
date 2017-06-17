@@ -4,11 +4,11 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        tickTime: 0,
         gainPerTick: 0,
         maxStorage: 0,
         waterMeter: ResourceMeter,
-        lightMeter: ResourceMeter
+        lightMeter: ResourceMeter,
+        labelNutrition: cc.Label
     },
 
     init () {
@@ -18,7 +18,8 @@ cc.Class({
         this.lightStorage = 0;
         this.nutrition = 0;
         this.waterMeter.init(this);
-        this.schedule(this.tick, this.tickTime);
+        this.lightMeter.init(this);
+        this.updateNutrition(0);
     },
 
     registerResource (res) {
@@ -31,6 +32,11 @@ cc.Class({
         } else {
             this.lightMeter.updateProgress(0);
         }
+    },
+
+    updateNutrition (delta) { //can be positive or negative
+        this.nutrition += delta;
+        this.labelNutrition.string = this.nutrition;
     },
 
     tick () {
