@@ -10,7 +10,7 @@ cc.Class({
         holeRadius: 0,
         camera: cc.Node,
         unitLength: [cc.Integer],
-        roundingNum: 0
+        roundingNum: 0,
     },
 
     onLoad: function () {
@@ -77,6 +77,9 @@ cc.Class({
                 distance = rootLength;
                 break;
             }
+        }
+        if(i >= this.unitLength.length) {
+            distance = rootLength;
         }
         var rootStartPos = this.deltaPos ? cc.pSub(this.touchStartPos, this.deltaPos) : this.touchStartPos;
         this.treeRootList[this.treeRootIndex].width = distance;
