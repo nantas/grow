@@ -63,6 +63,10 @@ cc.Class({
         }
         event.stopPropagation();
         this.isTouchLight = true;
+        this.canProduce = true;
+        if(this.game.resMng.nutrition <= 0)  {
+            this.canProduce = false;
+        }
         this.produceTreeRoot(this.lightList[touchIndex].position);
         if(this.lightList[touchIndex]) {
             this.deltaPos = cc.pSub(this.touchStartPos, this.lightList[touchIndex].position);
@@ -152,7 +156,9 @@ cc.Class({
         var touchEndPos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         for (var i = 0; i < this.treeRootLineList.length; i++) {
             var line = this.treeRootLineList[i];
-            if(cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos)) {
+            if(!this.canProduce ||
+                cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos) ||
+                cc.pDistance(this.endPos, this.touchStartPos) < this.unitLength[0]) {
                 this.treeRootList[this.treeRootIndex].removeFromParent();
                 this.treeRootList[this.treeRootIndex].destroy();
                 this.treeRootList.splice(this.treeRootIndex, 1);
