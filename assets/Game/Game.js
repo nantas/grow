@@ -33,6 +33,7 @@ cc.Class({
         this.resMng.updateNutrition(this.initNutrition);
         this.uiControl.updateLeaf(this.resMng.leafCount);
 
+        this.rootLength = 0;
         this.touchMng.init(this);
         this.startLoop();
     },
@@ -46,6 +47,11 @@ cc.Class({
         this.totalTime += this.tickTime;
         this.resMng.tick();
         this.uiControl.updateYear(Math.floor(this.totalTime/this.secToYear));
+    },
+    
+    setRootLength (rootLength) {
+        this.rootLength+=rootLength;
+        this.uiControl.updateRootLength(this.rootLength);
     },
 
     pause () {

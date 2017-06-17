@@ -53,7 +53,6 @@ cc.Class({
         for (var i = 0; i < this.lightList.length; i++) {
             var obj = this.lightList[i];
             if (cc.pDistance(obj.position, this.touchStartPos) <= this.rootNodeRadius) {
-            // if(obj.getBoundingBox().contains(this.touchStartPos)){
                 touchIndex = i;
             }
         }
@@ -63,17 +62,83 @@ cc.Class({
         }
         event.stopPropagation();
         this.isTouchLight = true;
-        this.produceTreeRoot(this.lightList[touchIndex].position);
-        if(this.lightList[touchIndex]) {
-            this.deltaPos = cc.pSub(this.touchStartPos, this.lightList[touchIndex].position);
+        this.canProduce = true;
+        if(this.game.resMng.nutrition <= 0)  {
+            this.canProduce = false;
         }
+        this.produceTreeRoot(this.lightList[touchIndex].position);
+        this.deltaPos = cc.pSub(this.touchStartPos, this.lightList[touchIndex].position);
+        this.startPos = this.lightList[touchIndex].position;
     },
     
     onTouchMove: function (event) {
-        //zoom
-        // let totalFrames = cc.director.getTotalFrames();
-        // if (this.lastTotalFrames !== totalFrames) {
-            // this.lastTotalFrames = totalFrames;
+        this.cameraControl(event);
+        var deltaX = event.getDeltaX();
+        var deltaY = event.getDeltaY();
+
+        if(!this.isTouchLight) {
+            this.camera.node.x -= deltaX;
+            this.camera.node.y -= deltaY;
+            return;
+        }
+
+        var screenPos = event.getLocation();
+        if ((deltaX > 0 && screenPos.x > (this.node.width - 100)) ||
+            (deltaX < 0 && screenPos.x < 100) || 
+            (deltaY > 0 && screenPos.y > (this.node.height - 80)) ||
+            (deltaY < 0 && screenPos.y < 80))
+        {
+            this.camera.node.x += deltaX;
+            this.camera.node.y += deltaY;
+        }
+
+        event.stopPropagation();
+        var touchMovePos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
+        var touchMovePos = this.deltaPos ? cc.pAdd(touchMovePos, this.deltaPos) : touchMovePos;
+        var newPos = cc.pSub(this.touchStartPos, touchMovePos);
+        var angle = cc.radiansToDegrees(- cc.pToAngle(newPos));
+        this.treeRootList[this.treeRootIndex].rotation = angle;
+        var distance = this.getDistance(touchMovePos);
+        var rootStartPos = this.deltaPos ? cc.pSub(this.touchStartPos, this.deltaPos) : this.touchStartPos;
+        this.treeRootList[this.treeRootIndex].width = distance;
+        this.lightPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), distance));
+        this.endPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), distance - this.lightList[0].width / 2));
+    },
+    
+    onTouchEnd: function (event) {
+        if(!this.isTouchLight) return;
+        event.stopPropagation();
+        var touchEndPos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
+        for (var i = 0; i < this.treeRootLineList.length; i++) {
+            var line = this.treeRootLineList[i];
+            if(!this.canProduce ||
+                cc.Intersection.lineLine(this.touchStartPos, this.lightPos, line.startPos, line.endPos) ||
+                cc.pDistance(this.lightPos, this.startPos) < this.unitLength[0]) {
+                this.treeRootList[this.treeRootIndex].removeFromParent();
+                this.treeRootList[this.treeRootIndex].destroy();
+                this.treeRootList.splice(this.treeRootIndex, 1);
+                return;
+            }
+        }
+        touchEndPos = this.endPos ? this.endPos : touchEndPos;
+        this.produceLight(this.lightPos);
+        var startPos = this.startPos ? this.startPos : this.touchStartPos;
+        var line = {startPos:startPos, endPos: touchEndPos};
+        this.treeRootLineList.push(line);
+        this.treeRootIndex ++;
+        this.game.resMng.updateNutrition(-this.curRootUnits);
+        for (let j = 0; j < this.game.holes.length; j++) {
+            let hole = this.game.holes[j];
+            let lineDist = cc.Intersection.pointLineDistance(hole.node.position, startPos, touchEndPos, true);
+            if( lineDist > this.holeRadius) continue;
+            hole.show();
+            if ( lineDist < this.waterActiveRadius) {
+                hole.activate();
+            }
+        }
+    },
+
+    cameraControl: function(event) {
         let touches = event.getTouches();
         if (touches.length >= 2) {
             let touch1 = touches[0], touch2 = touches[1];
@@ -94,33 +159,9 @@ cc.Class({
             this.camera.zoomRatio = zoomRatio < 0.1 ? 0.1 : zoomRatio;
             return;
         }
-        // }
+    },
 
-        var deltaX = event.getDeltaX();
-        var deltaY = event.getDeltaY();
-
-        if(!this.isTouchLight) {
-            this.camera.node.x -= deltaX;
-            this.camera.node.y -= deltaY;
-            return;
-        }
-
-        var screenPos = event.getLocation();
-        if ((deltaX > 0 && screenPos.x > (this.node.width - 100)) ||
-            (deltaX < 0 && screenPos.x < 100) || 
-            (deltaY > 0 && screenPos.y > (this.node.height - 80)) ||
-            (deltaY < 0 && screenPos.y < 80)) 
-        {
-            this.camera.node.x += deltaX;
-            this.camera.node.y += deltaY;
-        }
-
-        event.stopPropagation();
-        var touchMovePos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
-        var touchMovePos = this.deltaPos ? cc.pAdd(touchMovePos, this.deltaPos) : touchMovePos;
-        var newPos = cc.pSub(this.touchStartPos, touchMovePos);
-        var angle = cc.radiansToDegrees(- cc.pToAngle(newPos));
-        this.treeRootList[this.treeRootIndex].rotation = angle;
+    getDistance: function (touchMovePos) {
         var distance = cc.pDistance(touchMovePos, this.touchStartPos);
         var rootLength = 0;
         let maxUnits = Math.min(this.unitLength.length, this.game.resMng.nutrition);
@@ -141,39 +182,7 @@ cc.Class({
         if(i === maxUnits) {
             distance = rootLength;
         }
-        var rootStartPos = this.deltaPos ? cc.pSub(this.touchStartPos, this.deltaPos) : this.touchStartPos;
-        this.treeRootList[this.treeRootIndex].width = distance;
-        this.endPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), distance));
-    },
-    
-    onTouchEnd: function (event) {
-        if(!this.isTouchLight) return;
-        event.stopPropagation();
-        var touchEndPos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
-        for (var i = 0; i < this.treeRootLineList.length; i++) {
-            var line = this.treeRootLineList[i];
-            if(cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos)) {
-                this.treeRootList[this.treeRootIndex].removeFromParent();
-                this.treeRootList[this.treeRootIndex].destroy();
-                this.treeRootList.splice(this.treeRootIndex, 1);
-                return;
-            }
-        }
-        touchEndPos = this.endPos ? this.endPos : touchEndPos;
-        this.produceLight(this.endPos);
-        var line = {startPos:this.touchStartPos, endPos: touchEndPos};
-        this.treeRootLineList.push(line);
-        this.treeRootIndex ++;
-        this.game.resMng.updateNutrition(-this.curRootUnits);
-        for (let j = 0; j < this.game.holes.length; j++) {
-            let hole = this.game.holes[j];
-            let lineDist = cc.Intersection.pointLineDistance(hole.node.position, line.startPos, line.endPos, true);
-            if( lineDist > this.holeRadius) continue;
-            hole.show();
-            if ( lineDist < this.waterActiveRadius) {
-                hole.activate();
-            }
-        }
+        return distance;
     },
 
     produceLight: function (pos) {
