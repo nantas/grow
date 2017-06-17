@@ -95,14 +95,17 @@ cc.Class({
         event.stopPropagation();
         var touchMovePos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         var touchMovePos = this.deltaPos ? cc.pAdd(touchMovePos, this.deltaPos) : touchMovePos;
+        if(touchMovePos.y > 0) {
+            touchMovePos.y = 0;
+        }
         var newPos = cc.pSub(this.touchStartPos, touchMovePos);
         var angle = cc.radiansToDegrees(- cc.pToAngle(newPos));
         this.treeRootList[this.treeRootIndex].rotation = angle;
-        var distance = this.getDistance(touchMovePos);
+        this.distance = this.getDistance(touchMovePos);
         var rootStartPos = this.deltaPos ? cc.pSub(this.touchStartPos, this.deltaPos) : this.touchStartPos;
-        this.treeRootList[this.treeRootIndex].width = distance;
-        this.lightPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), distance));
-        this.endPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), distance - this.lightList[0].width / 2));
+        this.treeRootList[this.treeRootIndex].width = this.distance;
+        this.lightPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), this.distance));
+        this.endPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), this.distance - this.lightList[0].width / 2));
     },
     
     onTouchEnd: function (event) {
@@ -113,7 +116,8 @@ cc.Class({
             var line = this.treeRootLineList[i];
             if(!this.canProduce ||
                 cc.Intersection.lineLine(this.touchStartPos, this.lightPos, line.startPos, line.endPos) ||
-                cc.pDistance(this.lightPos, this.startPos) < this.unitLength[0]) {
+                cc.pDistance(this.lightPos, this.startPos) < this.unitLength[0]-this.lightList[0].width / 2 ||
+                this.lightPos.y >= 0) {
                 this.treeRootList[this.treeRootIndex].removeFromParent();
                 this.treeRootList[this.treeRootIndex].destroy();
                 this.treeRootList.splice(this.treeRootIndex, 1);
@@ -125,6 +129,7 @@ cc.Class({
         var startPos = this.startPos ? this.startPos : this.touchStartPos;
         var line = {startPos:startPos, endPos: touchEndPos};
         this.treeRootLineList.push(line);
+        this.game.setRootLength(this.distance);
         this.treeRootIndex ++;
         this.game.resMng.updateNutrition(-this.curRootUnits);
         for (let j = 0; j < this.game.spawner.locList.length; j++) {

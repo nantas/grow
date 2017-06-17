@@ -5478,7 +5478,8 @@
     },
     "tickTime": 1,
     "secToYear": 10,
-    "initNutrition": 5
+    "initNutrition": 5,
+    "rootLengthProportion": 50
   },
   {
     "__type__": "48a84M8cNZC/rpsHDGHnF/K",
