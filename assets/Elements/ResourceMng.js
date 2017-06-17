@@ -12,9 +12,11 @@ cc.Class({
         labelNutrition: cc.Label
     },
 
-    init () {
+    init (game) {
+        this.game = game;
         this.waterList = [];
         this.leafCount = 0;
+        this.waterSrcCount = 0;
         this.waterStorage = 0;
         this.lightStorage = 0;
         this.nutrition = 0;
@@ -25,6 +27,11 @@ cc.Class({
 
     registerWater (res) {
         this.waterList.push(res);
+    },
+
+    addLeaf () {
+        this.leafCount++;
+        this.game.uiControl.updateLeaf(this.leafCount);
     },
 
     resetMeter (resType) {
@@ -38,9 +45,11 @@ cc.Class({
     updateNutrition (delta) { //can be positive or negative
         this.nutrition += delta;
         this.labelNutrition.string = this.nutrition;
+        this.game.branchMng.enableCreate(this.nutrition > 0);
     },
 
     tick () {
+        this.waterSrcCount = 0;
         for (let i = 0; i < this.waterList.length; ++i) {
             let res = this.waterList[i];
             if (res.isActive && this.waterStorage < this.maxStorage) {
@@ -49,6 +58,9 @@ cc.Class({
                 this.waterMeter.updateProgress(this.waterStorage/ this.maxStorage);
                 if (this.waterStorage >= this.maxStorage) {
                     this.checkGainNutrition();
+                }
+                if (res.isActive) {
+                    this.waterSrcCount++;
                 }
             }
         }

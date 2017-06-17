@@ -55,7 +55,7 @@ cc.Class({
         let water = waterN.getComponent('WaterTank');
         this.layer.addChild(waterN);
         waterN.position = pos;
-        water.init();
+        water.init(150);
         this.game.resMng.registerWater(water);
         return water;
     }
