@@ -5,8 +5,9 @@ cc.Class({
         light: cc.Prefab,
         treeRoot: cc.Prefab,
         lightNode: cc.Node,
-        camera: cc.Node,
-        holeNode: cc.Node
+        treeRootNode: cc.Node,
+        holeNode: cc.Node,
+        holeRadius: 0
     },
 
     onLoad: function () {
@@ -28,7 +29,7 @@ cc.Class({
     },
     
     onTouchStart: function (event) {
-        this.touchStartPos = this.node.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
+        this.touchStartPos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         var touchIndex = null;
         for (var i = 0; i < this.lightList.length; i++) {
             var obj = this.lightList[i];
@@ -50,14 +51,14 @@ cc.Class({
     
     onTouchMove: function (event) {
         if(!this.isTouchLight) {
-            var detalX = event.getDeltaX();
-            var detalY = event.getDeltaY();
-            this.camera.x -= detalX;
-            this.camera.y -= detalY;
+            // var detalX = event.getDeltaX();
+            // var detalY = event.getDeltaY();
+            // this.camera.x -= detalX;
+            // this.camera.y -= detalY;
             return;
         }
         event.stopPropagation();
-        var touchMovePos = this.node.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
+        var touchMovePos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         var touchMovePos = this.deltaPos ? cc.pAdd(touchMovePos, this.deltaPos) : touchMovePos;
         var newPos = cc.pSub(this.touchStartPos, touchMovePos);
         var angle = cc.radiansToDegrees(- cc.pToAngle(newPos));
@@ -69,7 +70,7 @@ cc.Class({
     onTouchEnd: function (event) {
         if(!this.isTouchLight) return;
         event.stopPropagation();
-        var touchEndPos = this.node.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
+        var touchEndPos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
         for (var i = 0; i < this.treeRootLineList.length; i++) {
             var line = this.treeRootLineList[i];
             if(cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos)) {
@@ -83,10 +84,11 @@ cc.Class({
         var line = {startPos:this.touchStartPos, endPos: touchEndPos};
         this.treeRootLineList.push(line);
         this.treeRootIndex ++;
-        // for (var j = 0; j < this.holeNode.children.length; j++) {
-        //     var obj = this.holeNode.children[j];
-        //
-        // }
+        for (var j = 0; j < this.holeNode.children.length; j++) {
+            var hole = this.holeNode.children[j];
+            if(cc.Intersection.pointLineDistance(hole.position, line.startPos, line.endPos, true) > this.holeRadius) continue;
+            this.holeNode.children[j].active = true;
+        }
     },
 
     produceLight: function (pos) {
@@ -98,7 +100,7 @@ cc.Class({
 
     produceTreeRoot: function (pos) {
         var treeRoot = cc.instantiate(this.treeRoot);
-        treeRoot.parent = this.node;
+        treeRoot.parent = this.treeRootNode;
         treeRoot.position = pos;
         this.treeRootList.push(treeRoot);
     }
