@@ -83,10 +83,10 @@ cc.Class({
         var line = {startPos:this.touchStartPos, endPos: touchEndPos};
         this.treeRootLineList.push(line);
         this.treeRootIndex ++;
-        for (var j = 0; j < this.holeNode.children.length; j++) {
-            var obj = this.holeNode.children[j];
-            
-        }
+        // for (var j = 0; j < this.holeNode.children.length; j++) {
+        //     var obj = this.holeNode.children[j];
+        //
+        // }
     },
 
     produceLight: function (pos) {
