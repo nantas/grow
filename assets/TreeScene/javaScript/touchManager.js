@@ -154,6 +154,7 @@ cc.Class({
             var line = this.treeRootLineList[i];
             if(cc.Intersection.lineLine(this.touchStartPos, touchEndPos, line.startPos, line.endPos)) {
                 this.treeRootList[this.treeRootIndex].removeFromParent();
+                this.treeRootList[this.treeRootIndex].destroy();
                 this.treeRootList.splice(this.treeRootIndex, 1);
                 return;
             }
