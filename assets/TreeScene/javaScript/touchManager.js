@@ -221,17 +221,18 @@ cc.Class({
             let pos2 = this.game.spawner.locList[j];
             let lineDist = cc.Intersection.pointLineDistance(pos2, this.startPos, this.lightPos, true);
             if( lineDist > this.holeRadius) continue;
-            this.game.spawner.locList.splice(j, 1);
             let hole2 = this.game.spawner.spawnRandomHole(pos2);
             // let bbox = hole.node.getBoundingBox();
             this.game.spawner.saveHole(hole2);
             let typeRadius2 = this.game.spawner.getRadiusByType(hole2.type);
+            this.game.spawner.locList.splice(j, 1);
             if (cc.Intersection.pointLineDistance(hole2.node.position, this.startPos, this.lightPos, true) < typeRadius2) {
                 hole2.activate();
-                if(!this.checkHoleType(hole2, pos2)) {
+                if(!this.checkHoleType(hole2, hole2.node.position)) {
                     return false;
                 }
             }
+
         }
         return true;
     },
