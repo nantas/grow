@@ -16,10 +16,10 @@ cc.Class({
     },
 
     show () {
-        this.flashNode.opacity = 255;
-        Tween.to(this.flashNode, this.showDuration, {
-            opacity: 0
-        });
+        // this.flashNode.opacity = 255;
+        // Tween.to(this.flashNode, this.showDuration, {
+        //     opacity: 0
+        // });
     },
     
     activate () {

@@ -203,57 +203,66 @@ cc.Class({
     },
     
     checkHole: function () {
-        for (var i = 0; i < this.game.spawner.holeList.length; i++) {
-            var hole = this.game.spawner.holeList[i];
+        for (let i = 0; i < this.game.spawner.holeList.length; i++) {
+            let hole = this.game.spawner.holeList[i];
             let pos = hole.node.position;
-            let bbox = hole.node.getBoundingBox();
-            if (cc.Intersection.lineRect(this.startPos, this.lightPos, bbox)) {
-                switch (hole.type) {
-                    case HoleType.Water:
-                        break;
-                    case HoleType.Rock:
-                        var collisionRootUnits = this.getCollisionRootUnits(pos, this.startPos);
-                        if(collisionRootUnits === null) break;
-                        for (let k = this.curRootUnits; k > collisionRootUnits; k--) {
-                            this.distance -= this.unitLength[k];
-                        }
-                        if(this.distance <= 0) {
-                            this.treeRootList[this.treeRootIndex].removeFromParent();
-                            this.treeRootList[this.treeRootIndex].destroy();
-                            this.treeRootList.splice(this.treeRootIndex, 1);
-                            return false;
-                        }
-                        this.curRootUnits -= collisionRootUnits;
-                        this.treeRootList[this.treeRootIndex].width = this.distance;
-                        this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
-                        this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
-                        break;
-                    case HoleType.Turd:
-                        break;
-                    case HoleType.Pest:
-                        break;
-                    case HoleType.Toxic:
-                        break;
+            // let bbox = hole.node.getBoundingBox();
+            let typeRadius = this.game.spawner.getRadiusByType(hole.type);
+            if (cc.Intersection.pointLineDistance(hole.node.position, this.startPos, this.lightPos, true) < typeRadius) {
+                if(!this.checkHoleType(hole, pos)){
+                    return false;
                 }
+                hole.activate();
             }
         }
 
 
         for (let j = 0; j < this.game.spawner.locList.length; j++) {
-            let pos = this.game.spawner.locList[j];
-            let lineDist = cc.Intersection.pointLineDistance(pos, this.startPos, this.lightPos, true);
+            let pos2 = this.game.spawner.locList[j];
+            let lineDist = cc.Intersection.pointLineDistance(pos2, this.startPos, this.lightPos, true);
             if( lineDist > this.holeRadius) continue;
             this.game.spawner.locList.splice(j, 1);
-            let hole = this.game.spawner.spawnRandomHole(pos);
-            let bbox = hole.node.getBoundingBox();
-            // var typeRadius = this.game.spawner.getRadiusByType(hole.type);
-            if (cc.Intersection.lineRect(this.startPos, this.lightPos, bbox)) {
-                if(hole.type === HoleType.Rock) {
-                    hole = this.game.spawner.spawnRandomHole(pos, true);
+            let hole2 = this.game.spawner.spawnRandomHole(pos2);
+            // let bbox = hole.node.getBoundingBox();
+            this.game.spawner.saveHole(hole2);
+            let typeRadius2 = this.game.spawner.getRadiusByType(hole2.type);
+            if (cc.Intersection.pointLineDistance(hole2.node.position, this.startPos, this.lightPos, true) < typeRadius2) {
+                hole2.activate();
+                if(!this.checkHoleType(hole2, pos2)) {
+                    return false;
                 }
-                hole.activate();
             }
-            this.game.spawner.saveHole(hole);
+        }
+        return true;
+    },
+
+    checkHoleType(hole, pos) {
+        switch (hole.type) {
+            case HoleType.Water:
+                break;
+            case HoleType.Rock:
+                var collisionRootUnits = this.getCollisionRootUnits(pos, this.startPos);
+                if(collisionRootUnits === null) break;
+                for (let k = this.curRootUnits; k > collisionRootUnits; k--) {
+                    this.distance -= this.unitLength[k];
+                }
+                if(this.distance <= 0) {
+                    this.treeRootList[this.treeRootIndex].removeFromParent();
+                    this.treeRootList[this.treeRootIndex].destroy();
+                    this.treeRootList.splice(this.treeRootIndex, 1);
+                    return false;
+                }
+                this.curRootUnits -= collisionRootUnits;
+                this.treeRootList[this.treeRootIndex].width = this.distance;
+                this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
+                this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
+                break;
+            case HoleType.Turd:
+                break;
+            case HoleType.Pest:
+                break;
+            case HoleType.Toxic:
+                break;
         }
         return true;
     },

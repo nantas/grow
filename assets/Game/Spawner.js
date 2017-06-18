@@ -6,7 +6,7 @@ cc.Class({
         layer: cc.Node,
         waterTankPrefab: cc.Prefab,
         rockPrefab: cc.Prefab,
-        nutritionPrefab: cc.Prefab,
+        turdPrefab: cc.Prefab,
         // distLevels: [cc.Integer], //distance to the start point
         // countForLevel: [cc.Integer], //how many stuff we spawn for each level
         // minDist:0,
@@ -41,37 +41,28 @@ cc.Class({
         }
     },
 
-    spawnRandomHole(pos, noHaveRock) {
+    spawnRandomHole(pos) {
         //replace this
-        var randType = this.randomHoleType(noHaveRock);
+        var randType = parseInt(cc.random0To1()*(HoleType.Toxic + 1));
         switch (randType) {
             case HoleType.Water:
-                return this.spawnWaterTank(pos);
+                var water = this.spawnWaterTank(pos);
+                return water;
             case HoleType.Rock:
-                return this.spawnRock(pos);
+                var rock = this.spawnRock(pos)
+                return rock;
             case HoleType.Turd:
-                return this.spawnRandomHole(pos, noHaveRock);
+                var turd = this.spawnTurd(pos)
+                return turd;
             case HoleType.Pest:
-                return this.spawnRandomHole(pos, noHaveRock);
+                return this.spawnRandomHole(pos);
             case HoleType.Toxic:
-                return this.spawnRandomHole(pos, noHaveRock);
+                return this.spawnRandomHole(pos);
         }
     },
 
-    randomHoleType(noHaveRock) {
-        if(!noHaveRock) {
-            var rand = parseInt(cc.random0To1()*(HoleType.Toxic + 1));
-        }
-        else {
-            var randList = [];
-            for (var obj in HoleType) {
-                if(HoleType[obj] === HoleType.Rock) continue;
-                randList.push(HoleType[obj]);
-            }
-            var rand = parseInt(cc.random0To1()*randList.length);
-            rand = randList[rand];
-        }
-        return rand;
+    getRadiusByType(type) {
+        return this.typeRadius[type];
     },
 
     spawnRock(pos) {
@@ -84,13 +75,12 @@ cc.Class({
     },
 
     spawnTurd(pos) {
-        let waterN = cc.instantiate(this.waterTankPrefab);
-        let water = waterN.getComponent('WaterTank');
-        this.layer.addChild(waterN);
-        waterN.position = pos;
-        water.init(150);
-        this.game.resMng.registerWater(water);
-        return water;
+        let turdN = cc.instantiate(this.turdPrefab);
+        let turd = turdN.getComponent('NutritionContainer');
+        this.layer.addChild(turdN);
+        turdN.position = pos;
+        turd.init(5, this.game.resMng);
+        return turd;
     },
 
     spawnWaterTank (pos) {
