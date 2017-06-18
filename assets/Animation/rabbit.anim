@@ -1,0 +1,177 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "rabbit",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 8.45,
+  "sample": 20,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "Rabbit": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 255
+            },
+            {
+              "frame": 6.75,
+              "value": 255
+            },
+            {
+              "frame": 8.45,
+              "value": 0
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                606,
+                46
+              ]
+            },
+            {
+              "frame": 1,
+              "value": [
+                606,
+                46
+              ]
+            },
+            {
+              "frame": 1.25,
+              "value": [
+                540,
+                78
+              ]
+            },
+            {
+              "frame": 1.5,
+              "value": [
+                494,
+                48
+              ]
+            },
+            {
+              "frame": 1.75,
+              "value": [
+                434,
+                80
+              ]
+            },
+            {
+              "frame": 2,
+              "value": [
+                388,
+                49
+              ]
+            },
+            {
+              "frame": 2.25,
+              "value": [
+                342,
+                80
+              ]
+            },
+            {
+              "frame": 2.5,
+              "value": [
+                295,
+                50
+              ]
+            },
+            {
+              "frame": 2.75,
+              "value": [
+                249,
+                69
+              ]
+            },
+            {
+              "frame": 3,
+              "value": [
+                209,
+                46
+              ]
+            },
+            {
+              "frame": 4,
+              "value": [
+                209,
+                46
+              ],
+              "curve": [
+                0.35,
+                -1.08,
+                0.55,
+                1
+              ]
+            },
+            {
+              "frame": 4.3,
+              "value": [
+                103,
+                68
+              ]
+            },
+            {
+              "frame": 5.25,
+              "value": [
+                103,
+                68
+              ]
+            },
+            {
+              "frame": 6.15,
+              "value": [
+                132,
+                15
+              ]
+            },
+            {
+              "frame": 6.75,
+              "value": [
+                132,
+                15
+              ]
+            },
+            {
+              "frame": 8.45,
+              "value": [
+                132,
+                -77
+              ]
+            }
+          ],
+          "scaleX": [
+            {
+              "frame": 0,
+              "value": 1
+            }
+          ],
+          "rotation": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 5.25,
+              "value": 0
+            },
+            {
+              "frame": 6.15,
+              "value": -90
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

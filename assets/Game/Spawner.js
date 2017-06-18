@@ -44,7 +44,12 @@ cc.Class({
 
     spawnRandomHole(pos) {
         //replace this
-        var randType = parseInt(cc.random0To1()*(HoleType.Toxic + 1));
+        var randType = -1;
+        if (Math.random() > 0.7) {
+            randType = HoleType.Water;
+        } else {
+            randType = parseInt(cc.random0To1()*(HoleType.Toxic + 1));
+        }
         switch (randType) {
             case HoleType.Water:
                 var water = this.spawnWaterTank(pos);
@@ -80,7 +85,7 @@ cc.Class({
         let turd = turdN.getComponent('NutritionContainer');
         this.layer.addChild(turdN);
         turdN.position = pos;
-        turd.init(5, this.game.resMng);
+        turd.init(Math.floor(5 * this.getResModifierForPos(pos)), this.game.resMng);
         return turd;
     },
 
@@ -89,7 +94,7 @@ cc.Class({
         let water = waterN.getComponent('WaterTank');
         this.layer.addChild(waterN);
         waterN.position = pos;
-        water.init(150);
+        water.init(Math.floor(150 * this.getResModifierForPos(pos)));
         this.game.resMng.registerWater(water);
         return water;
     },
@@ -101,6 +106,13 @@ cc.Class({
         pestN.position = pos;
         pest.init();
         return pest;
+    },
+
+    getResModifierForPos (pos) {
+        let dist = cc.pDistance(cc.p(0, 0), pos);
+        if (dist > 500) {
+            return dist/500;
+        }
     },
 
     saveHole(hole) {

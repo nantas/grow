@@ -36,6 +36,7 @@ cc.Class({
 
     activate () {
         this.resMng.updateNutrition(this.nutrition);
+        this.game.uiControl.spawnScore(ResType.Nutrition, this.nutrition, this.node.position);
         Tween.to(this.icon.node, this.showDuration, {
             opacity: 0
         });

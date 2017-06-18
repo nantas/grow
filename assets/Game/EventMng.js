@@ -1,4 +1,3 @@
-const Rabbit = require('Rabbit');
 const EventType = require('Types').EventType;
 const Tween = require('TweenLite');
 
@@ -10,7 +9,7 @@ cc.Class({
         desc: cc.Label,
         sunshine: cc.Animation,
         rain: cc.ParticleSystem,
-        rabbit: Rabbit,
+        rabbit: cc.Animation,
         strtitle: [cc.String],
         strDesc: [cc.String],
         yearsDivide: 0,
@@ -29,6 +28,7 @@ cc.Class({
         this.rain.stopSystem();        
         this.sunshine.active = false;
         // this.eventOn = false;
+        this.rabbit.on('finished', this.onRabbitDone, this);
     },
 
     generateEventYears () {
@@ -67,6 +67,8 @@ cc.Class({
             this.desc.enabled = true;
             this.title.node.opacity = 0;
             this.desc.node.opacity = 0;
+            this.title.string = this.strtitle[eventType];
+            this.desc.string = this.strDesc[eventType];
             Tween.to(this.title.node, this.fadeDuration, {
                 opacity: 255
             });
@@ -103,9 +105,16 @@ cc.Class({
     },
 
     startRabbit() {
-        cc.log('rabbit spawn');
-        let isLeft = Math.random() > 0.5 ? true: false;
+        // cc.log('rabbit spawn');
         // this.rabbit.startRun(isLeft);
+        this.rabbit.play('rabbit');
+    },
+
+    onRabbitDone () {
+        let nutrition = 1 + Math.floor(Math.random() * 5); 
+        let position = this.rabbit.node.getChildByName('Rabbit').position;
+        this.game.resMng.updateNutrition(nutrition);
+        this.game.uiControl.spawnScore(ResType.Nutrition, nutrition, position);
     }
 
 });
