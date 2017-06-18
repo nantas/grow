@@ -6070,16 +6070,12 @@
     "rockPrefab": {
       "__uuid__": "fa0084ab-44f7-4533-89c8-d109da8b34c3"
     },
-    "nutritionPrefab": {
-      "__uuid__": "b403573a-230b-42e4-a423-bb4f1bbad9f8"
-    },
+    "turdPrefab": null,
     "regionRoot": {
       "__id__": 17
     },
     "randomRange": 60,
-    "icon": {
-      "__uuid__": "31a21511-2cdd-4e2c-aa6b-bbb658abecd1"
-    },
+    "icon": null,
     "typeRadius": [
       84,
       84,
