@@ -101,7 +101,7 @@ cc.Class({
             this.labelHint.enabled = true;
             this.labelHint.string = this.strHints[idx];
             this.strHints.splice(idx, 1);
-            this.scheduleOnce(this.hideHint, this.hintDuration.bind(this));
+            this.scheduleOnce(this.hideHint, this.hintDuration);
         }
     },
 

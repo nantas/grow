@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "b54136dd-3cd8-4dc7-a5fc-7551fafd9acc",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "cgj-logo": {
+      "ver": "1.0.3",
+      "uuid": "1e06196b-f763-4097-9017-96f97de03c27",
+      "rawTextureUuid": "b54136dd-3cd8-4dc7-a5fc-7551fafd9acc",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -11.5,
+      "offsetY": -51,
+      "trimX": 86,
+      "trimY": 125,
+      "width": 624,
+      "height": 671,
+      "rawWidth": 819,
+      "rawHeight": 819,
+      "borderTop": 57,
+      "borderBottom": 75,
+      "borderLeft": 170,
+      "borderRight": 117,
+      "subMetas": {}
+    }
+  }
+}

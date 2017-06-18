@@ -1,0 +1,31 @@
+{
+  "appKey": "",
+  "appSecret": "",
+  "excludeScenes": [
+    "d4a613ab-e4f8-4389-82f6-a26c6f823416",
+    "4642c7cc-bae7-468d-92d3-a8980c3907f2",
+    "711f2bae-a23e-4196-bbd5-15473bf504b8",
+    "c21212a5-a505-4d9c-a000-ee078adbcd27"
+  ],
+  "includeAnySDK": false,
+  "includeSdk": [
+    "anysdk"
+  ],
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": true,
+  "mergeStartScene": false,
+  "oauthLoginServer": "",
+  "optimizeHotUpdate": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.thetree",
+  "privateKey": "",
+  "renderMode": "0",
+  "startScene": "093f88bb-8131-4c44-91a1-56b40753453b",
+  "title": "thetree",
+  "webOrientation": "auto"
+}
