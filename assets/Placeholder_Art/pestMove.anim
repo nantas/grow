@@ -1,0 +1,125 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "pestMove",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 2.1,
+  "sample": 10,
+  "speed": 0.5,
+  "wrapMode": 2,
+  "curveData": {
+    "props": {
+      "x": [
+        {
+          "frame": 0,
+          "value": 21
+        },
+        {
+          "frame": 0.2,
+          "value": 17
+        },
+        {
+          "frame": 0.3,
+          "value": 13
+        },
+        {
+          "frame": 0.4,
+          "value": 9
+        },
+        {
+          "frame": 0.5,
+          "value": 5
+        },
+        {
+          "frame": 1,
+          "value": -22
+        },
+        {
+          "frame": 1.2,
+          "value": -13
+        },
+        {
+          "frame": 1.4,
+          "value": -4
+        },
+        {
+          "frame": 1.6,
+          "value": 6
+        },
+        {
+          "frame": 1.8,
+          "value": 16
+        },
+        {
+          "frame": 2.1,
+          "value": 25
+        }
+      ],
+      "scaleX": [
+        {
+          "frame": 1,
+          "value": 1
+        },
+        {
+          "frame": 1.1,
+          "value": -1
+        },
+        {
+          "frame": 2,
+          "value": -1
+        },
+        {
+          "frame": 2.1,
+          "value": 1
+        }
+      ],
+      "y": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.2,
+          "value": 7
+        },
+        {
+          "frame": 0.4,
+          "value": -1
+        },
+        {
+          "frame": 0.6,
+          "value": 8
+        },
+        {
+          "frame": 0.8,
+          "value": 3
+        },
+        {
+          "frame": 1,
+          "value": 10
+        },
+        {
+          "frame": 1.2,
+          "value": 4
+        },
+        {
+          "frame": 1.4,
+          "value": 11
+        },
+        {
+          "frame": 1.6,
+          "value": 5
+        },
+        {
+          "frame": 1.8,
+          "value": 15
+        },
+        {
+          "frame": 2,
+          "value": 6
+        }
+      ]
+    }
+  },
+  "events": []
+}

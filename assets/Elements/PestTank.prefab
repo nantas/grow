@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "RockTank",
+    "_name": "PestTank",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -22,14 +22,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 5
+        "__id__": 6
       },
       {
-        "__id__": 6
+        "__id__": 7
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 8
     },
     "_id": "",
     "_opacity": 255,
@@ -48,8 +48,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 92,
-      "height": 64
+      "width": 94,
+      "height": 89
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -69,7 +69,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "stone2",
+    "_name": "pest",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -80,10 +80,13 @@
     "_components": [
       {
         "__id__": 3
+      },
+      {
+        "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 4
+      "__id__": 5
     },
     "_id": "",
     "_opacity": 255,
@@ -102,17 +105,17 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 71,
-      "height": 65
+      "width": 57,
+      "height": 68
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.78,
-    "_scaleY": 0.78,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 30,
-      "y": -20
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -130,7 +133,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "43c6ccfd-77cb-440c-ba9a-92f0281f9117"
+      "__uuid__": "56e221f8-505b-4cb1-ae42-d7930494804b"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -148,14 +151,32 @@
     "_atlas": null
   },
   {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_defaultClip": {
+      "__uuid__": "15f09fb5-6736-473d-a4af-5c55eeb7ab43"
+    },
+    "_clips": [
+      {
+        "__uuid__": "15f09fb5-6736-473d-a4af-5c55eeb7ab43"
+      }
+    ],
+    "playOnLoad": true
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "fa0084ab-44f7-4533-89c8-d109da8b34c3"
+      "__uuid__": "8739ca4b-775d-4a28-a3ac-3ccba840bf92"
     },
-    "fileId": "e04b8fNF/hKnZZP6EKq3+ku",
+    "fileId": "2d1abZRPfdHabyVqX32uMou",
     "sync": false
   },
   {
@@ -167,7 +188,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "41c2dc5e-3a6a-4474-a9ab-f26597bffcd6"
+      "__uuid__": "b05d7157-0167-45ea-9c53-a0c6f5c79f21"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -185,14 +206,14 @@
     "_atlas": null
   },
   {
-    "__type__": "8e04aBNkyhCN6Fi9bhm8htL",
+    "__type__": "3538bE3yCVCy7kMzfPMY/Im",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "type": 1
+    "type": 0
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -200,9 +221,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "fa0084ab-44f7-4533-89c8-d109da8b34c3"
+      "__uuid__": "8739ca4b-775d-4a28-a3ac-3ccba840bf92"
     },
-    "fileId": "f12dffM2HlCKKl9khK+O3Ec",
+    "fileId": "20a6etdVDFDtL7mpufJRZNl",
     "sync": false
   }
 ]
