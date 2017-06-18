@@ -1,6 +1,7 @@
 const ResType = cc.Enum({
     Water: -1,
-    Light: -1
+    Light: -1,
+    Nutrition: -1
 });
 
 const HoleType = cc.Enum({

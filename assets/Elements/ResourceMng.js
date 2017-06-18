@@ -9,7 +9,8 @@ cc.Class({
         maxStorage: 0,
         waterMeter: ResourceMeter,
         lightMeter: ResourceMeter,
-        labelNutrition: cc.Label
+        labelNutrition: cc.Label,
+        nutritionScoreAnchor: cc.Node
     },
 
     init (game) {
@@ -52,9 +53,10 @@ cc.Class({
         this.waterSrcCount = 0;
         for (let i = 0; i < this.waterList.length; ++i) {
             let res = this.waterList[i];
-            if (res.isActive && this.waterStorage < this.maxStorage) {
+            if (res.curVolume > 0 && this.waterStorage < this.maxStorage) {
                 res.updateVol(this.waterPerTick);
                 this.waterStorage += this.waterPerTick;
+                this.game.uiControl.spawnScore(ResType.Water, this.waterPerTick, res.node.position);
                 this.waterMeter.updateProgress(this.waterStorage/ this.maxStorage);
                 if (this.waterStorage >= this.maxStorage) {
                     this.checkGainNutrition();
@@ -65,6 +67,7 @@ cc.Class({
             }
         }
         this.lightStorage += this.lightPerTick * this.leafCount;
+        this.game.branchMng.playScoreOnBranches();
         this.lightMeter.updateProgress(this.lightStorage/this.maxStorage);
         if (this.lightStorage >= this.maxStorage) {
             this.checkGainNutrition();
@@ -78,6 +81,7 @@ cc.Class({
             this.lightMeter.onResFull1();
             this.lightStorage = 0;
             this.updateNutrition(1);
+            this.game.uiControl.spawnScore(ResType.Nutrition, 1, this.nutritionScoreAnchor.position);
         }
     },
 

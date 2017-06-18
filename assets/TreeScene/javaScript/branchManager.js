@@ -1,3 +1,4 @@
+const ResType = require('Types').ResType;
 cc.Class({
     extends: cc.Component,
 
@@ -11,6 +12,7 @@ cc.Class({
     init (game) {
         this.game = game;
         this.branchPos = this.branchBornPos;
+        this.existBranches = [];
         for (var i = 0; i < 2; i++) {
             var randIndex = parseInt(cc.random0To1()*this.branchItem.length);
             this.createBranch(randIndex, i);
@@ -19,6 +21,12 @@ cc.Class({
 
     enableCreate (enable) {
         this.btnCreate.interactable = enable;
+    },
+
+    playScoreOnBranches () {
+        for (let i = 0; i < this.existBranches.length; ++i) {
+            this.game.uiControl.spawnScore(ResType.Light, this.game.resMng.lightPerTick, this.existBranches[i]);
+        }
     },
 
     randCreateBranch: function () {
@@ -31,6 +39,7 @@ cc.Class({
         var branchItem = cc.instantiate(this.branchItem[itemIndex]);
         branchItem.parent = this.branchParent;
         branchItem.position = this.branchPos[posIndex];
+        this.existBranches.push(branchItem.position);
         var newBranchPos = branchItem.getChildByName("initPos").position;
         this.branchPos[posIndex] = cc.pAdd(branchItem.position, newBranchPos);
         this.game.resMng.updateNutrition(-1);

@@ -33,7 +33,7 @@ cc.Class({
         this.flash.color = cc.Color.WHITE;
         Tween.to(this.flash, this.flashDuration, {
             opacity: 255,
-            easing: Power2.easeIn,
+            ease: Power2.easeIn,
             onComplete: this.onResFull2.bind(this)
         });
     },
@@ -42,7 +42,7 @@ cc.Class({
         this.resMng.resetMeter(this.resType);
         Tween.to(this.flash, this.flashDuration, {
             opacity: 0,
-            easing: Power2.easeOut
+            ease: Power2.easeOut
         });
     },
 
