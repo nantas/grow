@@ -81,9 +81,9 @@ cc.Class({
                 this.lowTimer += this.tickTime;
                 if (this.lowTimer >= this.dangerTime) {
                     this.resMng.waterMeter.playWarning();
-                    // if (this.lowTimer >= this.dangerTime * 2) {
-                    //     this.gameover();
-                    // }
+                    if (this.lowTimer >= this.dangerTime * 2) {
+                        this.gameover();
+                    }
                 }
             } else {
                 this.isCountingLow = true;

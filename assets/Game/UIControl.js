@@ -24,6 +24,7 @@ cc.Class({
     },
 
     updateRootLength (num) {
+        num = parseInt(num);
         this.labelRoot.string = 'Root: ' + num + 'm';
     },
 

@@ -109,7 +109,13 @@ cc.Class({
         var angle = cc.radiansToDegrees(- cc.pToAngle(this.newPos));
         this.treeRootList[this.treeRootIndex].rotation = angle;
         this.distance = this.getDistance(touchMovePos);
-        // this.treeRootList[this.treeRootIndex].width = this.distance;
+        this.treeRootList[this.treeRootIndex].width = this.distance;
+        // var startPos = this.startPos;
+        // for(var i = 0; i < this.curRootUnits; i++) {
+        //     startPos = this.rootEndPos ? this.rootEndPos : startPos;
+        //     this.rootEndPos = cc.pSub(startPos, cc.pMult(cc.pNormalize(this.newPos), this.unitLength[i]));
+        //     this.produceTreeRoot(this.rootEndPos);
+        // }
         this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
         this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
     },
