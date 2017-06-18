@@ -22,7 +22,11 @@ cc.Class({
         dangerTime: 0,
         secToYear: 0,
         initNutrition: 0,
-        rootLengthProportion: 0
+        rootLengthProportion: 0,
+        strHints: [cc.String],
+        labelHint: cc.Label,
+        hintDuration: 0,
+        timePerHint: 0
     },
 
     // use this for initialization
@@ -35,6 +39,8 @@ cc.Class({
         // this.resMng.leafCount = 2;
         this.resMng.updateNutrition(this.initNutrition);
         // this.uiControl.updateLeaf(this.resMng.leafCount);
+        this.hintTimer = 0;
+        this.labelHint.enabled = false;
 
         this.rootLength = 0;
     },
@@ -59,6 +65,12 @@ cc.Class({
     },
 
     tick () {
+        if (!this.labelHint.enabled) {
+            this.hintTimer += this.tickTime;
+            if (this.hintTimer >= this.timePerHint) {
+                this.showHint();
+            }
+        }
         this.totalTime += this.tickTime;
         this.year = Math.floor(this.totalTime/this.secToYear);  
         this.uiControl.updateYear(this.year);
@@ -81,6 +93,21 @@ cc.Class({
             this.lowTimer = 0;
             this.resMng.waterMeter.stopWarning();
         }
+    },
+
+    showHint () {
+        if (this.strHints.length > 0) {
+            let idx = Math.floor(Math.random() * this.strHints.length);
+            this.labelHint.enabled = true;
+            this.labelHint.string = this.strHints[idx];
+            this.strHints.splice(idx, 1);
+            this.scheduleOnce(this.hideHint, this.hintDuration.bind(this));
+        }
+    },
+
+    hideHint () {
+        this.labelHint.enabled = false;
+        this.hintTimer = 0;
     },
     
     setRootLength (rootLength) {
