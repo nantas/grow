@@ -1,3 +1,5 @@
+var HoleType = require("Types").HoleType;
+
 cc.Class({
     extends: cc.Component,
 
@@ -98,14 +100,13 @@ cc.Class({
         if(touchMovePos.y > 0) {
             touchMovePos.y = 0;
         }
-        var newPos = cc.pSub(this.touchStartPos, touchMovePos);
-        var angle = cc.radiansToDegrees(- cc.pToAngle(newPos));
+        this.newPos = cc.pSub(this.touchStartPos, touchMovePos);
+        var angle = cc.radiansToDegrees(- cc.pToAngle(this.newPos));
         this.treeRootList[this.treeRootIndex].rotation = angle;
         this.distance = this.getDistance(touchMovePos);
-        var rootStartPos = this.deltaPos ? cc.pSub(this.touchStartPos, this.deltaPos) : this.touchStartPos;
         this.treeRootList[this.treeRootIndex].width = this.distance;
-        this.lightPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), this.distance));
-        this.endPos = cc.pSub(rootStartPos, cc.pMult(cc.pNormalize(newPos), this.distance - this.lightList[0].width / 2));
+        this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
+        this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
     },
     
     onTouchEnd: function (event) {
@@ -125,24 +126,14 @@ cc.Class({
             }
         }
         touchEndPos = this.endPos ? this.endPos : touchEndPos;
-        this.produceLight(this.lightPos);
         var startPos = this.startPos ? this.startPos : this.touchStartPos;
+        if(!this.checkHole()) return;
+        this.produceLight(this.lightPos);
         var line = {startPos:startPos, endPos: touchEndPos};
         this.treeRootLineList.push(line);
         this.game.setRootLength(this.distance);
         this.treeRootIndex ++;
         this.game.resMng.updateNutrition(-this.curRootUnits);
-        for (let j = 0; j < this.game.spawner.locList.length; j++) {
-            let pos = this.game.spawner.locList[j];
-            let lineDist = cc.Intersection.pointLineDistance(pos, startPos, this.lightPos, true);
-            if( lineDist > this.holeRadius) continue;
-            this.game.spawner.locList.splice(j, 1);
-            let hole = this.game.spawner.spawnRandomHole(pos);
-            let bbox = hole.node.getBoundingBox();
-            if (cc.Intersection.lineRect(startPos, this.lightPos, bbox)) {
-                hole.activate();
-            }
-        }
     },
 
     cameraControl: function(event) {
@@ -171,9 +162,9 @@ cc.Class({
     getDistance: function (touchMovePos) {
         var distance = cc.pDistance(touchMovePos, this.touchStartPos);
         var rootLength = 0;
-        let maxUnits = Math.min(this.unitLength.length, this.game.resMng.nutrition);
+        this.maxUnits = Math.min(this.unitLength.length, this.game.resMng.nutrition);
         this.curRootUnits = 0;
-        for (var i = 0; i < maxUnits; i++) {
+        for (var i = 0; i < this.maxUnits; i++) {
             rootLength += this.unitLength[i];
             this.curRootUnits++;
             if(distance < rootLength){
@@ -186,10 +177,85 @@ cc.Class({
                 break;
             }
         }
-        if(i === maxUnits) {
+        if(i === this.maxUnits) {
             distance = rootLength;
         }
         return distance;
+    },
+
+    getCollisionRootUnits: function (holePos, startPos) {
+        let rootLength = 0;
+        let collisionRootUnits = 0;
+        for (var i = 0; i < this.maxUnits; i++) {
+            rootLength += this.unitLength[i];
+
+            let endPos = cc.pSub(startPos, cc.pMult(cc.pNormalize(this.newPos), rootLength));
+
+            let lineDist = cc.Intersection.pointLineDistance(holePos, startPos, endPos, true);
+
+            if( lineDist > this.holeRadius) {
+                collisionRootUnits++;
+                continue;
+            }
+            return collisionRootUnits;
+        }
+        return null;
+    },
+    
+    checkHole: function () {
+        for (var i = 0; i < this.game.spawner.holeList.length; i++) {
+            var hole = this.game.spawner.holeList[i];
+            let pos = hole.node.position;
+            let bbox = hole.node.getBoundingBox();
+            if (cc.Intersection.lineRect(this.startPos, this.lightPos, bbox)) {
+                switch (hole.type) {
+                    case HoleType.Water:
+                        break;
+                    case HoleType.Rock:
+                        var collisionRootUnits = this.getCollisionRootUnits(pos, this.startPos);
+                        if(collisionRootUnits === null) break;
+                        for (let k = this.curRootUnits; k > collisionRootUnits; k--) {
+                            this.distance -= this.unitLength[k];
+                        }
+                        if(this.distance <= 0) {
+                            this.treeRootList[this.treeRootIndex].removeFromParent();
+                            this.treeRootList[this.treeRootIndex].destroy();
+                            this.treeRootList.splice(this.treeRootIndex, 1);
+                            return false;
+                        }
+                        this.curRootUnits -= collisionRootUnits;
+                        this.treeRootList[this.treeRootIndex].width = this.distance;
+                        this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
+                        this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
+                        break;
+                    case HoleType.Turd:
+                        break;
+                    case HoleType.Pest:
+                        break;
+                    case HoleType.Toxic:
+                        break;
+                }
+            }
+        }
+
+
+        for (let j = 0; j < this.game.spawner.locList.length; j++) {
+            let pos = this.game.spawner.locList[j];
+            let lineDist = cc.Intersection.pointLineDistance(pos, this.startPos, this.lightPos, true);
+            if( lineDist > this.holeRadius) continue;
+            this.game.spawner.locList.splice(j, 1);
+            let hole = this.game.spawner.spawnRandomHole(pos);
+            let bbox = hole.node.getBoundingBox();
+            // var typeRadius = this.game.spawner.getRadiusByType(hole.type);
+            if (cc.Intersection.lineRect(this.startPos, this.lightPos, bbox)) {
+                if(hole.type === HoleType.Rock) {
+                    hole = this.game.spawner.spawnRandomHole(pos, true);
+                }
+                hole.activate();
+            }
+            this.game.spawner.saveHole(hole);
+        }
+        return true;
     },
 
     produceLight: function (pos) {

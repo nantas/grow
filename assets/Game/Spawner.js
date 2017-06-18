@@ -1,3 +1,5 @@
+var HoleType = require("Types").HoleType;
+
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -11,7 +13,8 @@ cc.Class({
         regionRoot: cc.Node,
         randomRange: 0,
         // angleMargin: 0,
-        icon: cc.Prefab
+        icon: cc.Prefab,
+        typeRadius: [cc.Integer]
     },
 
     init (game) {
@@ -20,6 +23,7 @@ cc.Class({
         this.endDist = 0;
         // this.spawnLocations();
         this.locList = [];
+        this.holeList = [];
         this.spawnLocationsFromRegion();
     },
 
@@ -37,17 +41,56 @@ cc.Class({
         }
     },
 
-    spawnRandomHole(pos) {
+    spawnRandomHole(pos, noHaveRock) {
         //replace this
-        return this.spawnWaterTank(pos);
+        var randType = this.randomHoleType(noHaveRock);
+        switch (randType) {
+            case HoleType.Water:
+                return this.spawnWaterTank(pos);
+            case HoleType.Rock:
+                return this.spawnRock(pos);
+            case HoleType.Turd:
+                return this.spawnRandomHole(pos, noHaveRock);
+            case HoleType.Pest:
+                return this.spawnRandomHole(pos, noHaveRock);
+            case HoleType.Toxic:
+                return this.spawnRandomHole(pos, noHaveRock);
+        }
+    },
+
+    randomHoleType(noHaveRock) {
+        if(!noHaveRock) {
+            var rand = parseInt(cc.random0To1()*(HoleType.Toxic + 1));
+        }
+        else {
+            var randList = [];
+            for (var obj in HoleType) {
+                if(HoleType[obj] === HoleType.Rock) continue;
+                randList.push(HoleType[obj]);
+            }
+            var rand = parseInt(cc.random0To1()*randList.length);
+            rand = randList[rand];
+        }
+        return rand;
     },
 
     spawnRock(pos) {
-
+        let rockN = cc.instantiate(this.rockPrefab);
+        let rock = rockN.getComponent('RockTank');
+        this.layer.addChild(rockN);
+        rockN.position = pos;
+        rockN.init();
+        return rock;
     },
 
-    spawnNutrition(pos) {
-
+    spawnTurd(pos) {
+        let waterN = cc.instantiate(this.waterTankPrefab);
+        let water = waterN.getComponent('WaterTank');
+        this.layer.addChild(waterN);
+        waterN.position = pos;
+        water.init(150);
+        this.game.resMng.registerWater(water);
+        return water;
     },
 
     spawnWaterTank (pos) {
@@ -58,5 +101,9 @@ cc.Class({
         water.init(150);
         this.game.resMng.registerWater(water);
         return water;
+    },
+
+    saveHole(hole) {
+        this.holeList.push(hole);
     }
 });

@@ -4159,9 +4159,7 @@
     "flash": {
       "__id__": 95
     },
-    "anim": {
-      "__id__": 102
-    }
+    "anim": null
   },
   {
     "__type__": "cc.Animation",
@@ -5148,7 +5146,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_id": "2568e3gm4ZKLr/pVfb8HW/g",
@@ -5730,9 +5728,9 @@
       "__id__": 153
     },
     "tickTime": 1,
-    "dangerTime": 10,
+    "dangerTime": 0,
     "secToYear": 10,
-    "initNutrition": 5,
+    "initNutrition": 100,
     "rootLengthProportion": 50
   },
   {
@@ -5964,7 +5962,9 @@
     "waterTankPrefab": {
       "__uuid__": "2f8e5bce-a6ee-4b56-bbe5-976df4a23041"
     },
-    "rockPrefab": null,
+    "rockPrefab": {
+      "__uuid__": "fa0084ab-44f7-4533-89c8-d109da8b34c3"
+    },
     "nutritionPrefab": {
       "__uuid__": "b403573a-230b-42e4-a423-bb4f1bbad9f8"
     },
@@ -5974,7 +5974,8 @@
     "randomRange": 60,
     "icon": {
       "__uuid__": "31a21511-2cdd-4e2c-aa6b-bbb658abecd1"
-    }
+    },
+    "typeRadius": []
   },
   {
     "__type__": "735a4DWW9ZP+JBhaGEWV56t",

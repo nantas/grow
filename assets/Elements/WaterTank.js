@@ -1,3 +1,4 @@
+var HoleType = require("Types").HoleType;
 const Tween = require('TweenLite');
 cc.Class({
     extends: cc.Component,
@@ -6,7 +7,11 @@ cc.Class({
         progressBar:cc.ProgressBar,
         // flashNode: cc.Node,
         initVolume:0,
-        showDuration:0
+        showDuration:0,
+        type: {
+            default: HoleType.Water,
+            type: HoleType
+        }
     },
 
     // use this for initialization
