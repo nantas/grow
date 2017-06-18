@@ -17,7 +17,7 @@ cc.Class({
 
     // use this for initialization
     init (nutrition, resMng) {
-        var rand = cc.random0To1()*this.icon.length;
+        var rand = parseInt(cc.random0To1()*this.iconSprite.length);
         this.resMng = resMng;
         this.icon.spriteFrame = this.iconSprite[rand];
 

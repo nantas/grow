@@ -238,47 +238,22 @@ cc.Class({
     },
 
     checkHoleType(hole, pos) {
-        switch (hole.type) {
-            case HoleType.Water:
-                break;
-            case HoleType.Rock:
-                var collisionRootUnits = this.getCollisionRootUnits(pos, this.startPos);
-                if(collisionRootUnits === null) break;
-                for (let i = this.curRootUnits; k > collisionRootUnits; k--) {
-                    this.distance -= this.unitLength[k];
-                }
-                if(this.distance <= 0) {
-                    this.treeRootList[this.treeRootIndex].removeFromParent();
-                    this.treeRootList[this.treeRootIndex].destroy();
-                    this.treeRootList.splice(this.treeRootIndex, 1);
-                    return false;
-                }
-                this.curRootUnits -= collisionRootUnits;
-                this.treeRootList[this.treeRootIndex].width = this.distance;
-                this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
-                this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
-                break;
-            case HoleType.Turd:
-                break;
-            case HoleType.Pest:
-                var collisionRootUnits = this.getCollisionRootUnits(pos, this.startPos);
-                if(collisionRootUnits === null) break;
-                for (var k = this.curRootUnits; k > collisionRootUnits; k--) {
-                    this.distance -= this.unitLength[k];
-                }
-                if(this.distance <= 0) {
-                    this.treeRootList[this.treeRootIndex].removeFromParent();
-                    this.treeRootList[this.treeRootIndex].destroy();
-                    this.treeRootList.splice(this.treeRootIndex, 1);
-                    return false;
-                }
-                this.curRootUnits -= collisionRootUnits;
-                this.treeRootList[this.treeRootIndex].width = this.distance;
-                this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
-                this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
-                break;
-            case HoleType.Toxic:
-                break;
+        if(hole.type === HoleType.Rock || hole.type === HoleType.Pest) {
+            var collisionRootUnits = this.getCollisionRootUnits(pos, this.startPos);
+            if(collisionRootUnits === null) return false;
+            for (let i = this.curRootUnits; i > collisionRootUnits; i--) {
+                this.distance -= this.unitLength[i];
+            }
+            if(this.distance <= 0) {
+                this.treeRootList[this.treeRootIndex].removeFromParent();
+                this.treeRootList[this.treeRootIndex].destroy();
+                this.treeRootList.splice(this.treeRootIndex, 1);
+                return false;
+            }
+            this.curRootUnits -= collisionRootUnits;
+            this.treeRootList[this.treeRootIndex].width = this.distance;
+            this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
+            this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
         }
         return true;
     },
