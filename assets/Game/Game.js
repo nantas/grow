@@ -28,6 +28,7 @@ cc.Class({
         this.uiControl.init();
         this.spawner.init(this);
         this.resMng.init(this);
+        this.eventMng.init(this);
         this.branchMng.init(this);
 
         // this.resMng.leafCount = 2;

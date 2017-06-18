@@ -21,5 +21,6 @@ const HoleType = cc.Enum({
 
 module.exports = {
     ResType,
+    EventType,
     HoleType
 };

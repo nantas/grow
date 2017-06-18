@@ -1,5 +1,7 @@
 const Rabbit = require('Rabbit');
 const EventType = require('Types').EventType;
+const Tween = require('TweenLite');
+
 cc.Class({
     extends: cc.Component,
 
@@ -9,23 +11,31 @@ cc.Class({
         sunshine: cc.Animation,
         rain: cc.ParticleSystem,
         rabbit: Rabbit,
+        strtitle: [cc.String],
+        strDesc: [cc.String],
         yearsDivide: 0,
         eventCount: 0,
-        eventDuration: 0 //year
+        eventDuration: 0, //year
+        fadeDuration: 0
     },
 
     init (game) {
         this.game = game;
         this.eventYears = [];
+        this.stopEvent();
         this.generateEventYears();
+        this.title.enabled = false;
+        this.desc.enabled = false;
+        this.rain.stopSystem();        
+        this.sunshine.active = false;
         // this.eventOn = false;
     },
 
     generateEventYears () {
         let count = 0;
         while (count < this.eventCount) {
-            let min = count * yearsDivide;
-            let year = min + Math.floor(Math.random() * yearsDivide / 2);
+            let min = count * this.yearsDivide;
+            let year = min + Math.floor(Math.random() * this.yearsDivide / 2);
             this.eventYears.push(year);
             count++;
         }
@@ -53,15 +63,31 @@ cc.Class({
             } else if (eventType === EventType.Rabbit) {
                 this.startRabbit();
             }
+            this.title.enabled = true;
+            this.desc.enabled = true;
+            this.title.node.opacity = 0;
+            this.desc.node.opacity = 0;
+            Tween.to(this.title.node, this.fadeDuration, {
+                opacity: 255
+            });
+            Tween.to(this.desc.node, this.fadeDuration, {
+                opacity: 255
+            });
         }
     },
 
     stopEvent() {
         this.sunshine.stop();
         this.sunshine.node.active = false;
-        this.rain.enabled = false;
-        this.rain.active = false;
+        this.rain.stopSystem();
+        // this.rain.node.active = false;
         this.game.resMng.updateEventRes(0, 0);        
+        Tween.to(this.title.node, this.fadeDuration, {
+            opacity: 0
+        });
+        Tween.to(this.desc.node, this.fadeDuration, {
+            opacity: 0
+        });
     },
 
     startSunshine () {
@@ -71,8 +97,8 @@ cc.Class({
     },
 
     startRain() {
-        this.rain.active = true;
-        this.rain.enabled = true;
+        this.rain.resetSystem();
+        // this.rain.enabled = true;
         this.game.resMng.updateEventRes(4, -2);
     },
 
