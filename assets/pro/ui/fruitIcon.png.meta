@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "f6dffb08-e667-4301-934f-4adf96415c14",
+  "uuid": "2a6fb079-f9ca-4cb9-9757-86ddb843ef06",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
     "fruitIcon": {
       "ver": "1.0.3",
-      "uuid": "271468c4-bb26-41ae-a84c-03fdce75eb83",
-      "rawTextureUuid": "f6dffb08-e667-4301-934f-4adf96415c14",
+      "uuid": "7fe38626-67cf-4f52-ab19-7fd61464b1b2",
+      "rawTextureUuid": "2a6fb079-f9ca-4cb9-9757-86ddb843ef06",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

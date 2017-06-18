@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "783006bb-dc32-46a6-b5ec-84163e097c8a",
+  "uuid": "229f484e-8cfc-48f7-83d4-94047d984233",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
     "nutrientBottle": {
       "ver": "1.0.3",
-      "uuid": "8eb4cce8-826e-41ec-944f-c8f3e6be61e7",
-      "rawTextureUuid": "783006bb-dc32-46a6-b5ec-84163e097c8a",
+      "uuid": "84116398-2a7e-4638-bd50-a8600489bd9d",
+      "rawTextureUuid": "229f484e-8cfc-48f7-83d4-94047d984233",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

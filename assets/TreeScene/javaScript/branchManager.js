@@ -11,7 +11,7 @@ cc.Class({
 
     init (game) {
         this.game = game;
-        this.branchPos = this.branchBornPos;
+        this.branchPos = this.branchBornPos.copyWithin();
         this.existBranches = [];
         for (var i = 0; i < 2; i++) {
             var randIndex = parseInt(cc.random0To1()*this.branchItem.length);
@@ -39,10 +39,15 @@ cc.Class({
         var branchItem = cc.instantiate(this.branchItem[itemIndex]);
         branchItem.parent = this.branchParent;
         branchItem.position = this.branchPos[posIndex];
+        if (Math.random() > 0.5) {
+            branchItem.scaleX = -1;
+        }
         this.existBranches.push(branchItem.position);
         var newBranchPos = branchItem.getChildByName("initPos").position;
         this.branchPos[posIndex] = cc.pAdd(branchItem.position, newBranchPos);
-        this.game.resMng.updateNutrition(-1);
-        this.game.resMng.addLeaf();
+        if (this.game) {
+            this.game.resMng.updateNutrition(-1);
+            this.game.resMng.addLeaf();
+        }
     },
 });

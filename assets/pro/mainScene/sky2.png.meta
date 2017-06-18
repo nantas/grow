@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "6d9ea9bd-ec6e-438e-b8d8-f5ba1118306b",
+  "uuid": "d54a86a8-3a9e-4588-b57c-e523099855bf",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
     "sky2": {
       "ver": "1.0.3",
-      "uuid": "4c749694-0ab8-49a9-9e74-cb2d0ead0de3",
-      "rawTextureUuid": "6d9ea9bd-ec6e-438e-b8d8-f5ba1118306b",
+      "uuid": "611976a4-d937-4721-a8f6-3722a62bc9cb",
+      "rawTextureUuid": "d54a86a8-3a9e-4588-b57c-e523099855bf",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "3106669e-e6d1-4db3-b6a3-667f0b8758b2",
+  "uuid": "1f474a9a-90a9-466e-8acf-f69f3284f967",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
     "leafIcon": {
       "ver": "1.0.3",
-      "uuid": "f17e3fba-7ed5-4e11-87f5-b46da374c742",
-      "rawTextureUuid": "3106669e-e6d1-4db3-b6a3-667f0b8758b2",
+      "uuid": "d055b62a-9018-454e-8a09-f03ce5ff6f50",
+      "rawTextureUuid": "1f474a9a-90a9-466e-8acf-f69f3284f967",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

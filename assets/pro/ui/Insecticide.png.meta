@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "7207cdd9-6b7b-4297-95d5-d3c6d3952042",
+  "uuid": "da71fff7-490e-438a-ac72-543253bdfede",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
     "Insecticide": {
       "ver": "1.0.3",
-      "uuid": "1808394a-df24-4802-afec-c5bde06aae13",
-      "rawTextureUuid": "7207cdd9-6b7b-4297-95d5-d3c6d3952042",
+      "uuid": "35c607f4-077e-4d5a-90f8-0a4f0d6be91e",
+      "rawTextureUuid": "da71fff7-490e-438a-ac72-543253bdfede",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

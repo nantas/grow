@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "6d91b1e7-518c-4dea-bb92-503f52f79bc6",
+  "uuid": "6836fa9b-6a64-46b7-b4b7-b14a0b337c3b",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
     "prospect1": {
       "ver": "1.0.3",
-      "uuid": "a8bc511d-4f58-4585-a399-3a479db23527",
-      "rawTextureUuid": "6d91b1e7-518c-4dea-bb92-503f52f79bc6",
+      "uuid": "41efb548-4b1f-49c2-967d-3b0e030ccd6b",
+      "rawTextureUuid": "6836fa9b-6a64-46b7-b4b7-b14a0b337c3b",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

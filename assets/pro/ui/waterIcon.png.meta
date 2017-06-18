@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "6e36302d-88cb-46d6-afd7-21e488a3e0e0",
+  "uuid": "4c467b25-0ae3-427f-951e-44e5d24672ed",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
     "waterIcon": {
       "ver": "1.0.3",
-      "uuid": "953fcfb2-2929-4652-b39c-e20b89e36a69",
-      "rawTextureUuid": "6e36302d-88cb-46d6-afd7-21e488a3e0e0",
+      "uuid": "2f9ea25c-0e21-4c71-b485-2886534d1b17",
+      "rawTextureUuid": "4c467b25-0ae3-427f-951e-44e5d24672ed",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
