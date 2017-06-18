@@ -15,16 +15,20 @@ cc.Class({
         camera: cc.Camera,
         unitLength: [cc.Integer],
         roundingNum: 0,
-        treeRootSprite:[cc.SpriteFrame]
+        treeRootSprite:[cc.SpriteFrame],
+        firstLight: cc.Animation
     },
 
     init (game) {
         this.game = game;
+        this.hasClickFirstLight = false;
         this.lightList = [];
         this.treeRootList = [];
         this.treeRootLineList = [];
         this.treeRootIndex = 0;
-        this.produceLight(cc.p(0, -20));
+        this.produceLight(cc.p(0, -30));
+        this.firstLight.node.position = cc.p(0, -30);
+        this.firstLight.play('light');
         this.node.on("touchstart", this.onTouchStart, this);
         this.node.on("touchmove", this.onTouchMove, this);
         this.node.on("touchend", this.onTouchEnd, this);
@@ -273,6 +277,11 @@ cc.Class({
     },
 
     produceTreeRoot: function (pos) {
+        if (!this.hasClickFirstLight) {
+            this.hasClickFirstLight = true;
+            this.firstLight.stop();
+            this.firstLight.node.active = false;
+        }
         var treeRoot = cc.instantiate(this.treeRoot);
         treeRoot.parent = this.treeRootNode;
         treeRoot.position = pos;

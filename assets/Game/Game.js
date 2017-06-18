@@ -5,6 +5,7 @@ const UIControl = require('UIControl');
 const Spawner = require('Spawner');
 const BranchMng = require('branchManager');
 const EventMng = require('EventMng');
+const Tween = require('TweenLite');
 
 cc.Class({
     extends: cc.Component,
@@ -16,6 +17,7 @@ cc.Class({
         spawner: Spawner,
         touchMng: TouchMng,
         uiControl: UIControl,
+        launch: cc.Node,
         tickTime: 0,
         dangerTime: 0,
         secToYear: 0,
@@ -30,17 +32,25 @@ cc.Class({
         this.resMng.init(this);
         this.eventMng.init(this);
         this.branchMng.init(this);
-
         // this.resMng.leafCount = 2;
         this.resMng.updateNutrition(this.initNutrition);
         // this.uiControl.updateLeaf(this.resMng.leafCount);
 
         this.rootLength = 0;
+    },
+
+    startGame () {
         this.touchMng.init(this);
         this.isCountingLow = false;
         this.lowTimer = 0;
         this.year = 0;
         this.startLoop();
+        Tween.to(this.launch, 3, {
+            opacity: 0,
+            onComplete: function () {
+                this.launch.active = false;
+            }.bind(this)
+        });
     },
 
     startLoop () {
