@@ -4,8 +4,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        iconSprite:[cc.SpriteFrame],
+        icon: cc.Sprite,
         type: {
-            default: HoleType.Water,
+            default: HoleType.Pest,
             type: HoleType
         }
     },
@@ -15,6 +17,11 @@ cc.Class({
     },
 
     init () {
+        var rand = parseInt(cc.random0To1()*this.iconSprite.length);
+        this.icon.spriteFrame = this.iconSprite[rand];
+        if(rand === 0) {
+            this.icon.getComponent(cc.Animation).play();
+        }
         this.show();
     },
 

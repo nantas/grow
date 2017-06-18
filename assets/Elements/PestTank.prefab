@@ -166,7 +166,7 @@
         "__uuid__": "15f09fb5-6736-473d-a4af-5c55eeb7ab43"
       }
     ],
-    "playOnLoad": true
+    "playOnLoad": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -213,7 +213,18 @@
       "__id__": 1
     },
     "_enabled": true,
-    "type": 0
+    "iconSprite": [
+      {
+        "__uuid__": "56e221f8-505b-4cb1-ae42-d7930494804b"
+      },
+      {
+        "__uuid__": "65ced522-a2bf-4869-b1b3-8ed1621f667f"
+      }
+    ],
+    "icon": {
+      "__id__": 3
+    },
+    "type": 3
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -6,7 +6,7 @@ cc.Class({
         layer: cc.Node,
         waterTankPrefab: cc.Prefab,
         rockPrefab: cc.Prefab,
-        turdPrefab: cc.Prefab,
+        NutritionPrefab: cc.Prefab,
         pestPrefab: cc.Prefab,
         // distLevels: [cc.Integer], //distance to the start point
         // countForLevel: [cc.Integer], //how many stuff we spawn for each level
@@ -14,7 +14,6 @@ cc.Class({
         regionRoot: cc.Node,
         randomRange: 0,
         // angleMargin: 0,
-        icon: cc.Prefab,
         typeRadius: [cc.Integer]
     },
 
@@ -48,7 +47,7 @@ cc.Class({
         if (Math.random() > 0.7) {
             randType = HoleType.Water;
         } else {
-            randType = parseInt(cc.random0To1()*(HoleType.Toxic + 1));
+            randType = parseInt(cc.random0To1()*(HoleType.Pest + 1));
         }
         switch (randType) {
             case HoleType.Water:
@@ -62,8 +61,6 @@ cc.Class({
                 return turd;
             case HoleType.Pest:
                 return this.spawnPestTank(pos);
-            case HoleType.Toxic:
-                return this.spawnRandomHole(pos);
         }
     },
 
@@ -81,7 +78,7 @@ cc.Class({
     },
 
     spawnTurd(pos) {
-        let turdN = cc.instantiate(this.turdPrefab);
+        let turdN = cc.instantiate(this.NutritionPrefab);
         let turd = turdN.getComponent('NutritionContainer');
         this.layer.addChild(turdN);
         turdN.position = pos;

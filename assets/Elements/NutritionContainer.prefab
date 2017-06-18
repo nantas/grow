@@ -289,7 +289,18 @@
     "icon": {
       "__id__": 3
     },
-    "nutrition": 3,
+    "iconSprite": [
+      {
+        "__uuid__": "940d834d-5b3e-4c6b-a166-cd4f2246f437"
+      },
+      {
+        "__uuid__": "dadd3092-53ba-44b2-8ba8-3c3f33791b2d"
+      }
+    ],
+    "nutritionNum": [
+      3,
+      5
+    ],
     "showDuration": 0.5,
     "type": 2
   },
