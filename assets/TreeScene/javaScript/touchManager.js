@@ -244,7 +244,7 @@ cc.Class({
             case HoleType.Rock:
                 var collisionRootUnits = this.getCollisionRootUnits(pos, this.startPos);
                 if(collisionRootUnits === null) break;
-                for (let k = this.curRootUnits; k > collisionRootUnits; k--) {
+                for (let i = this.curRootUnits; k > collisionRootUnits; k--) {
                     this.distance -= this.unitLength[k];
                 }
                 if(this.distance <= 0) {
@@ -261,6 +261,21 @@ cc.Class({
             case HoleType.Turd:
                 break;
             case HoleType.Pest:
+                var collisionRootUnits = this.getCollisionRootUnits(pos, this.startPos);
+                if(collisionRootUnits === null) break;
+                for (var k = this.curRootUnits; k > collisionRootUnits; k--) {
+                    this.distance -= this.unitLength[k];
+                }
+                if(this.distance <= 0) {
+                    this.treeRootList[this.treeRootIndex].removeFromParent();
+                    this.treeRootList[this.treeRootIndex].destroy();
+                    this.treeRootList.splice(this.treeRootIndex, 1);
+                    return false;
+                }
+                this.curRootUnits -= collisionRootUnits;
+                this.treeRootList[this.treeRootIndex].width = this.distance;
+                this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
+                this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
                 break;
             case HoleType.Toxic:
                 break;

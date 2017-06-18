@@ -5,11 +5,14 @@ cc.Class({
 
     properties: {
         type: {
-            default: HoleType.Rock,
+            default: HoleType.Water,
             type: HoleType
         }
     },
-    
+
+    onLoad: function () {
+
+    },
 
     init () {
         this.show();
@@ -17,7 +20,7 @@ cc.Class({
 
     show () {
     },
-    
+
     activate () {
         if (!this.isActive) {
             this.isActive = true;

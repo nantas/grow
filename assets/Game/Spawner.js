@@ -7,6 +7,7 @@ cc.Class({
         waterTankPrefab: cc.Prefab,
         rockPrefab: cc.Prefab,
         turdPrefab: cc.Prefab,
+        pestPrefab: cc.Prefab,
         // distLevels: [cc.Integer], //distance to the start point
         // countForLevel: [cc.Integer], //how many stuff we spawn for each level
         // minDist:0,
@@ -55,7 +56,7 @@ cc.Class({
                 var turd = this.spawnTurd(pos)
                 return turd;
             case HoleType.Pest:
-                return this.spawnRandomHole(pos);
+                return this.spawnPestTank(pos);
             case HoleType.Toxic:
                 return this.spawnRandomHole(pos);
         }
@@ -91,6 +92,15 @@ cc.Class({
         water.init(150);
         this.game.resMng.registerWater(water);
         return water;
+    },
+
+    spawnPestTank (pos) {
+        let pestN = cc.instantiate(this.pestPrefab);
+        let pest = pestN.getComponent('PestTank');
+        this.layer.addChild(pestN);
+        pestN.position = pos;
+        pest.init();
+        return pest;
     },
 
     saveHole(hole) {
