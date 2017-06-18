@@ -4045,7 +4045,7 @@
     ],
     "_prefab": null,
     "_id": "93ebeTe1iFFAoR+g6hz9rqC",
-    "_opacity": 0,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -4097,7 +4097,7 @@
     ],
     "_prefab": null,
     "_id": "5576fOPS+xJb7GisJ90w/Ct",
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -8049,7 +8049,7 @@
     "rockPrefab": {
       "__uuid__": "fa0084ab-44f7-4533-89c8-d109da8b34c3"
     },
-    "turdPrefab": {
+    "NutritionPrefab": {
       "__uuid__": "b403573a-230b-42e4-a423-bb4f1bbad9f8"
     },
     "pestPrefab": {
@@ -8059,7 +8059,6 @@
       "__id__": 25
     },
     "randomRange": 60,
-    "icon": null,
     "typeRadius": [
       46,
       46,

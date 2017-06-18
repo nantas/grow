@@ -1,4 +1,5 @@
-const EventType = require('Types').EventType;
+const EventType = require('Types').EventType;;
+const ResType = require('Types').ResType;
 const Tween = require('TweenLite');
 
 cc.Class({
@@ -26,7 +27,8 @@ cc.Class({
         this.title.enabled = false;
         this.desc.enabled = false;
         this.rain.stopSystem();        
-        this.sunshine.active = false;
+        // this.sunshine.active = false;
+        this.sunshine.node.opacity = 0;
         // this.eventOn = false;
         this.rabbit.on('finished', this.onRabbitDone, this);
     },
@@ -80,7 +82,7 @@ cc.Class({
 
     stopEvent() {
         this.sunshine.stop();
-        this.sunshine.node.active = false;
+        // this.sunshine.node.active = false;
         this.rain.stopSystem();
         // this.rain.node.active = false;
         this.game.resMng.updateEventRes(0, 0);        
@@ -93,7 +95,7 @@ cc.Class({
     },
 
     startSunshine () {
-        this.sunshine.active = true;
+        // this.sunshine.active = true;
         this.sunshine.play('sunshine');
         this.game.resMng.updateEventRes(-2, 5);
     },
