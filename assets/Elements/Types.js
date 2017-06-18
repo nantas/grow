@@ -15,7 +15,7 @@ const HoleType = cc.Enum({
     Rock: -1,
     Turd: -1,
     Pest: -1,
-    Toxic: -1,
+    // Toxic: -1,
 });
 
 

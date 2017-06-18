@@ -6,7 +6,8 @@ cc.Class({
 
     properties: {
         icon:cc.Sprite,
-        nutrition:0,
+        iconSprite:[cc.SpriteFrame],
+        nutritionNum:[cc.Integer],
         showDuration:0,
         type: {
             default: HoleType.Turd,
@@ -16,13 +17,14 @@ cc.Class({
 
     // use this for initialization
     init (nutrition, resMng) {
+        var rand = cc.random0To1()*this.icon.length;
         this.resMng = resMng;
+        this.icon.spriteFrame = this.iconSprite[rand];
+
         this.icon.node.opacity = 255;
-        if (nutrition) {
-            this.nutrition = nutrition;
-        }
+        this.nutrition = this.nutritionNum[rand];
         this.flashNode = this.node.getChildByName('flash');
-        // this.node.active = false;
+        // this.node.active = false
         this.show();
     },
 
