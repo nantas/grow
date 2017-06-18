@@ -15,6 +15,7 @@ cc.Class({
         camera: cc.Camera,
         unitLength: [cc.Integer],
         roundingNum: 0,
+        treeRootSprite:[cc.SpriteFrame]
     },
 
     init (game) {
@@ -104,7 +105,7 @@ cc.Class({
         var angle = cc.radiansToDegrees(- cc.pToAngle(this.newPos));
         this.treeRootList[this.treeRootIndex].rotation = angle;
         this.distance = this.getDistance(touchMovePos);
-        this.treeRootList[this.treeRootIndex].width = this.distance;
+        // this.treeRootList[this.treeRootIndex].width = this.distance;
         this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
         this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
     },
@@ -269,6 +270,8 @@ cc.Class({
         var treeRoot = cc.instantiate(this.treeRoot);
         treeRoot.parent = this.treeRootNode;
         treeRoot.position = pos;
+        var rand = parseInt(cc.random0To1()*this.treeRootSprite.length);
+        treeRoot.getComponent(cc.Sprite).spriteFrame = this.treeRootSprite[rand];
         this.treeRootList.push(treeRoot);
     }
 
