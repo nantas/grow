@@ -4,6 +4,12 @@ const ResType = cc.Enum({
     Nutrition: -1
 });
 
+const EventType = cc.Enum({
+    Sunshine: -1,
+    Rain: -1,
+    Rabbit: -1
+});
+
 const HoleType = cc.Enum({
     Water: -1,
     Rock: -1,

@@ -23,6 +23,10 @@ cc.Class({
         this.nutrition = 0;
         this.waterMeter.init(this);
         this.lightMeter.init(this);
+        this.eventResPerTick = {
+            water:0,
+            light:0
+        };
         this.updateNutrition(0);
     },
 
@@ -43,6 +47,11 @@ cc.Class({
         }
     },
 
+    updateEventRes (water, light) {
+        this.eventResPerTick.water = water;
+        this.eventResPerTick.light = light;
+    },
+
     updateNutrition (delta) { //can be positive or negative
         this.nutrition += delta;
         this.labelNutrition.string = this.nutrition;
@@ -57,10 +66,7 @@ cc.Class({
                 res.updateVol(this.waterPerTick);
                 this.waterStorage += this.waterPerTick;
                 this.game.uiControl.spawnScore(ResType.Water, this.waterPerTick, res.node.position);
-                this.waterMeter.updateProgress(this.waterStorage/ this.maxStorage);
-                if (this.waterStorage >= this.maxStorage) {
-                    this.checkGainNutrition();
-                }
+                // this.waterMeter.updateProgress(this.waterStorage/ this.maxStorage);
                 if (res.isActive) {
                     this.waterSrcCount++;
                 }
@@ -68,10 +74,32 @@ cc.Class({
         }
         this.lightStorage += this.lightPerTick * this.leafCount;
         this.game.branchMng.playScoreOnBranches();
-        this.lightMeter.updateProgress(this.lightStorage/this.maxStorage);
-        if (this.lightStorage >= this.maxStorage) {
-            this.checkGainNutrition();
+        // this.lightMeter.updateProgress(this.lightStorage/this.maxStorage);
+        this.applyEventRes();
+        if (this.waterStorage >= this.maxStorage) {
+            this.waterStorage = this.maxStorage;
         }
+        if (this.waterStorage <= 0) {
+            this.waterStorage = 0;
+        }
+        if (this.lightStorage >= this.maxStorage) {
+            this.lightStorage = this.maxStorage;
+        }
+        if (this.lightStorage <= 0) {
+            this.lightStorage = 0;
+        }
+        this.waterMeter.updateProgress(this.waterStorage / this.maxStorage);        
+        this.lightMeter.updateProgress(this.lightStorage/this.maxStorage);        
+        this.checkGainNutrition();
+    },
+
+    applyEventRes () {
+        if (this.eventResPerTick.water === 0 && this.eventResPerTick.light === 0) {
+            return;
+        }
+        this.waterStorage += this.eventResPerTick.water;
+        this.lightStorage += this.eventResPerTick.light;
+
     },
 
     checkGainNutrition () {
@@ -83,6 +111,6 @@ cc.Class({
             this.updateNutrition(1);
             this.game.uiControl.spawnScore(ResType.Nutrition, 1, this.nutritionScoreAnchor.position);
         }
-    },
+    }
 
 });

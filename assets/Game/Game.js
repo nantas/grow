@@ -4,12 +4,14 @@ const TouchMng = require('touchManager');
 const UIControl = require('UIControl');
 const Spawner = require('Spawner');
 const BranchMng = require('branchManager');
+const EventMng = require('EventMng');
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
         resMng: ResourceMng,
+        eventMng: EventMng,
         branchMng: BranchMng,
         spawner: Spawner,
         touchMng: TouchMng,
@@ -36,6 +38,7 @@ cc.Class({
         this.touchMng.init(this);
         this.isCountingLow = false;
         this.lowTimer = 0;
+        this.year = 0;
         this.startLoop();
     },
 
@@ -46,8 +49,10 @@ cc.Class({
 
     tick () {
         this.totalTime += this.tickTime;
+        this.year = Math.floor(this.totalTime/this.secToYear);  
+        this.uiControl.updateYear(this.year);
         this.resMng.tick();
-        this.uiControl.updateYear(Math.floor(this.totalTime/this.secToYear));
+        this.eventMng.tick();
         if (this.resMng.nutrition <= 0 && this.resMng.waterSrcCount === 0) {
             if (this.isCountingLow) {
                 this.lowTimer += this.tickTime;
