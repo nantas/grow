@@ -5,7 +5,8 @@
     "d4a613ab-e4f8-4389-82f6-a26c6f823416",
     "4642c7cc-bae7-468d-92d3-a8980c3907f2",
     "711f2bae-a23e-4196-bbd5-15473bf504b8",
-    "c21212a5-a505-4d9c-a000-ee078adbcd27"
+    "c21212a5-a505-4d9c-a000-ee078adbcd27",
+    "8820396c-a7ca-4353-880c-dada1cbe1f8c"
   ],
   "includeAnySDK": false,
   "includeSdk": [
@@ -13,7 +14,7 @@
   ],
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
-  "mergeStartScene": false,
+  "mergeStartScene": true,
   "oauthLoginServer": "",
   "optimizeHotUpdate": false,
   "orientation": {
@@ -27,5 +28,5 @@
   "renderMode": "0",
   "startScene": "093f88bb-8131-4c44-91a1-56b40753453b",
   "title": "thetree",
-  "webOrientation": "auto"
+  "webOrientation": "landscape"
 }

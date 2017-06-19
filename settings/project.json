@@ -1,23 +1,47 @@
 {
-  "start-scene": "current",
-  "group-list": [
-    "default"
-  ],
   "collision-matrix": [
     [
       true
     ]
   ],
-  "excluded-modules": [],
-  "design-resolution-width": 960,
   "design-resolution-height": 640,
-  "fit-width": false,
+  "design-resolution-width": 960,
+  "excluded-modules": [
+    "CCSpriteDistortion",
+    "TiledMap",
+    "Spine Skeleton",
+    "ScrollBar",
+    "ScrollView",
+    "Toggle",
+    "ToggleGroup",
+    "PageView",
+    "Slider",
+    "PageViewIndicator",
+    "EditorBox",
+    "VideoPlayer",
+    "WebView",
+    "RichText",
+    "MotionStreak",
+    "Collider",
+    "Action",
+    "Graphics",
+    "DragonBones",
+    "Physics",
+    "StudioComponent",
+    "RenderTexture",
+    "Chipmunk"
+  ],
   "fit-height": true,
-  "use-project-simulator-setting": false,
+  "fit-width": false,
+  "group-list": [
+    "default"
+  ],
   "simulator-orientation": false,
-  "use-customize-simulator": false,
   "simulator-resolution": {
-    "width": 960,
-    "height": 640
-  }
+    "height": 640,
+    "width": 960
+  },
+  "start-scene": "current",
+  "use-customize-simulator": false,
+  "use-project-simulator-setting": false
 }
