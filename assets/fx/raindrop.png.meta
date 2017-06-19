@@ -5,7 +5,7 @@
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "rain-drop": {
+    "raindrop": {
       "ver": "1.0.3",
       "uuid": "af89554b-ad78-4906-be07-860ce8efaa74",
       "rawTextureUuid": "8bc2b340-82c3-4d88-9b12-6f8590cf7114",

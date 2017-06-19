@@ -7,6 +7,7 @@ cc.Class({
         labelLeaf: cc.Label,
         uiGameOver: cc.Node,
         scorePrefab: cc.Prefab,
+        land2: cc.Node, //Hack to fix camera culling
         fxLayer: cc.Node
     },
 

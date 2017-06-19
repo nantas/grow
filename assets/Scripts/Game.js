@@ -58,6 +58,7 @@ cc.Class({
                 this.launch.active = false;
             }.bind(this)
         });
+        this.uiControl.land2.y = -400;//HACK camera culling
     },
 
     startLoop () {

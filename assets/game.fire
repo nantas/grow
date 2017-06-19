@@ -172,8 +172,8 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 39,
-      "g": 26,
-      "b": 27,
+      "g": 32,
+      "b": 22,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -10880,6 +10880,9 @@
     },
     "scorePrefab": {
       "__uuid__": "54727d07-b40e-40e9-8f09-47bc58db654c"
+    },
+    "land2": {
+      "__id__": 7
     },
     "fxLayer": {
       "__id__": 159

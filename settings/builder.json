@@ -13,7 +13,7 @@
   ],
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
-  "mergeStartScene": true,
+  "mergeStartScene": false,
   "oauthLoginServer": "",
   "optimizeHotUpdate": false,
   "orientation": {
