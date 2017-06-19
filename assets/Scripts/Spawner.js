@@ -109,6 +109,8 @@ cc.Class({
         let dist = cc.pDistance(cc.p(0, 0), pos);
         if (dist > 500) {
             return dist/500;
+        } else {
+            return 1;
         }
     },
 

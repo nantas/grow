@@ -47,6 +47,7 @@ cc.Class({
 
     startGame () {
         this.touchMng.init(this);
+        this.branchMng.btnCreate.node.active = true;
         this.isCountingLow = false;
         this.lowTimer = 0;
         this.year = 0;
