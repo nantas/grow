@@ -1,3 +1,5 @@
+const GameOver = require('GameOver');
+
 cc.Class({
     extends: cc.Component,
 
@@ -5,7 +7,7 @@ cc.Class({
         labelYear: cc.Label,
         labelRoot: cc.Label,
         labelLeaf: cc.Label,
-        uiGameOver: cc.Node,
+        uiGameOver: GameOver,
         scorePrefab: cc.Prefab,
         land2: cc.Node, //Hack to fix camera culling
         fxLayer: cc.Node
@@ -17,7 +19,7 @@ cc.Class({
         this.updateRootLength(0);
         this.updateLeaf(0);
         this.scorePool = new cc.NodePool();
-        this.uiGameOver.active = false;
+        this.uiGameOver.node.active = false;
     },
 
     updateYear(num) {
@@ -33,8 +35,9 @@ cc.Class({
         this.labelLeaf.string = 'Leaf: ' + num;
     },
 
-    showGameOver () {
-        this.uiGameOver.active = true;
+    showGameOver (year) {
+        this.uiGameOver.node.active = true;
+        this.uiGameOver.init(year);
     },
 
     spawnScore (type, num, pos) {

@@ -52,12 +52,13 @@ cc.Class({
                 this.flash.active = true;                
                 this.anim.play('water-low');
                 this.isWarning = true;
+                this.resMng.updateEventRes(-1, 0);                
             }
         }
     },
 
     stopWarning () {
-        if (this.anim) {
+        if (this.anim && this.isWarning) {
             this.anim.stop();
             this.flash.active = false;                
             this.isWarning = false;

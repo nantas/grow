@@ -41,6 +41,7 @@ cc.Class({
         // this.uiControl.updateLeaf(this.resMng.leafCount);
         this.hintTimer = 0;
         this.labelHint.enabled = false;
+        this.isWarning = false;
 
         this.rootLength = 0;
     },
@@ -78,12 +79,16 @@ cc.Class({
         this.uiControl.updateYear(this.year);
         this.resMng.tick();
         this.eventMng.tick();
-        if (this.resMng.nutrition <= 0 && this.resMng.waterSrcCount === 0) {
+        if (this.resMng.waterSrcCount === 0) {
             if (this.isCountingLow) {
                 this.lowTimer += this.tickTime;
                 if (this.lowTimer >= this.dangerTime) {
-                    this.resMng.waterMeter.playWarning();
-                    if (this.lowTimer >= this.dangerTime * 2) {
+                    if (!this.isWarning) {
+                        this.resMng.waterMeter.playWarning();
+                        this.resMng.updateEventRes(-1, 0);     
+                        this.isWarning = true;
+                    }
+                    if (this.resMng.waterStorage === 0 && this.lowTimer >= this.dangerTime * 2) {
                         this.gameover();
                     }
                 }
@@ -92,8 +97,12 @@ cc.Class({
             }
         } else {
             this.isCountingLow = false;
+            if (this.isWarning) {
+                this.isWarning = false;
+                this.resMng.updateEventRes(1, 0);
+                this.resMng.waterMeter.stopWarning();
+            }
             this.lowTimer = 0;
-            this.resMng.waterMeter.stopWarning();
         }
     },
 
@@ -119,7 +128,7 @@ cc.Class({
 
     gameover () {
         this.pause();
-        this.uiControl.showGameOver();
+        this.uiControl.showGameOver(this.year);
         this.branchMng.btnCreate.node.active = false;
         cc.log('Game Over!');
     },

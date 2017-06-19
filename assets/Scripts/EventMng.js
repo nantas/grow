@@ -85,7 +85,7 @@ cc.Class({
         // this.sunshine.node.active = false;
         this.rain.stopSystem();
         // this.rain.node.active = false;
-        this.game.resMng.updateEventRes(0, 0);        
+        this.game.resMng.resetEventRes();        
         Tween.to(this.title.node, this.fadeDuration, {
             opacity: 0
         });

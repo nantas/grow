@@ -48,8 +48,13 @@ cc.Class({
     },
 
     updateEventRes (water, light) {
-        this.eventResPerTick.water = water;
-        this.eventResPerTick.light = light;
+        this.eventResPerTick.water += water;
+        this.eventResPerTick.light += light;
+    },
+
+    resetEventRes () {
+        this.eventResPerTick.water = 0;
+        this.eventResPerTick.light = 0;
     },
 
     updateNutrition (delta) { //can be positive or negative
@@ -62,15 +67,14 @@ cc.Class({
         this.waterSrcCount = 0;
         for (let i = 0; i < this.waterList.length; ++i) {
             let res = this.waterList[i];
-            if (res.curVolume > 0 && this.waterStorage < this.maxStorage) {
-                res.updateVol(this.waterPerTick);
-                this.waterStorage += this.waterPerTick;
-                this.game.uiControl.spawnScore(ResType.Water, this.waterPerTick, res.node.position);
-                // this.waterMeter.updateProgress(this.waterStorage/ this.maxStorage);
-                if (res.isActive) {
-                    this.waterSrcCount++;
+            if (res.isActive && res.curVolume > 0) {
+                this.waterSrcCount++;
+                if (this.waterStorage < this.maxStorage) {
+                    res.updateVol(this.waterPerTick);
+                    this.waterStorage += this.waterPerTick;
+                    this.game.uiControl.spawnScore(ResType.Water, this.waterPerTick, res.node.position);
                 }
-            }
+            } 
         }
         this.lightStorage += this.lightPerTick * this.leafCount;
         this.game.branchMng.playScoreOnBranches();
