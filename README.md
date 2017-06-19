@@ -1,10 +1,14 @@
 # CiGA Game Jam 2017 The Tree 游戏设计文档
 
+![cgj](assets/Art/cgj-logo.png)
+
 ## 游戏概要
 
 这是一棵树的生长故事，它生根散叶，不断壮大自己并探索周围环境，尽可能吸取更多养分，对抗有害的环境，最终成为星球的主人。
 
 ![concept](concept.jpeg)
+
+![screenshot](screenshot.jpg)
 
 ## 游戏玩法
 
@@ -69,3 +73,5 @@
 - 树根总长度达到 XX
 - 长出第一个果实
 - 长到一定高度
+
+![cgj presentation](cgj2017xm.jpeg)
