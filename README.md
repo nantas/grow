@@ -1,4 +1,4 @@
-# CiGA Game Jam 2017 The Tree 游戏设计文档
+# CiGA Game Jam 2017 Grow 游戏设计文档
 
 ![cgj](assets/Art/cgj-logo.png)
 
