@@ -32,6 +32,7 @@ cc.Class({
         this.node.on("touchstart", this.onTouchStart, this);
         this.node.on("touchmove", this.onTouchMove, this);
         this.node.on("touchend", this.onTouchEnd, this);
+        this.node.on("mousewheel", this.onMouseWheel, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         this.lastTotalFrames = -1;
         this.curRootUnits = 0;
@@ -47,6 +48,10 @@ cc.Class({
                 break;
         }
     },    
+
+    onMouseWheel (event) {
+        this.camera.zoomRatio *= (100 - event._scrollY/3) / 100;
+    },
 
     onDestroy: function () {
         this.node.off("touchstart", this.onTouchStart, this);
@@ -84,8 +89,8 @@ cc.Class({
         var deltaY = event.getDeltaY();
 
         if(!this.isTouchLight) {
-            this.camera.node.x -= deltaX;
-            this.camera.node.y -= deltaY;
+            this.camera.node.x -= deltaX * 1.5;
+            this.camera.node.y -= deltaY * 1.5;
             return;
         }
 

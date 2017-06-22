@@ -14,6 +14,12 @@ cc.Class({
         regionRoot: cc.Node,
         randomRange: 0,
         // angleMargin: 0,
+        icon: cc.Prefab,
+        initMarginX: 0,
+        initMarginY: 0,
+        marginIncX: 0,
+        marginIncY: 0,
+        groundNode: cc.Node,
         typeRadius: [cc.Integer]
     },
 
@@ -24,20 +30,45 @@ cc.Class({
         // this.spawnLocations();
         this.locList = [];
         this.holeList = [];
+        this.startX = - this.groundNode.width / 2 + 300;
+        this.startY = - 200;
+        this.endX = this.groundNode.width / 2 - 300;
+        this.endY = - this.groundNode.height;
         this.spawnLocationsFromRegion();
     },
 
-    spawnLocationsFromRegion() {
-        let regions = this.regionRoot.children;
-        for (let i = 0; i < regions.length; ++i) {
-            let pos = regions[i].position;
-            regions[i].active = false;
-            pos.x += this.randomRange * 2 * ( Math.random() - 0.5);
-            pos.y += this.randomRange * 2 * ( Math.random() - 0.5);
-            this.locList.push(pos);
-            // let ph = cc.instantiate(this.icon);
-            // this.layer.addChild(ph);
-            // ph.setPosition(pos);            
+    // spawnLocationsFromRegion() {
+    //     let regions = this.regionRoot.children;
+    //     for (let i = 0; i < regions.length; ++i) {
+    //         let pos = regions[i].position;
+    //         regions[i].active = false;
+    //         pos.x += this.randomRange * 2 * ( Math.random() - 0.5);
+    //         pos.y += this.randomRange * 2 * ( Math.random() - 0.5);
+    //         this.locList.push(pos);
+    //         let ph = cc.instantiate(this.icon);
+    //         this.layer.addChild(ph);
+    //         ph.setPosition(pos); 
+    //     }
+    // },
+
+    spawnLocationsFromRegion () {
+        let curX = this.startX;
+        let curY = this.startY;
+        while (curY >= this.endY) {
+            curX = this.startX;
+            while (curX <= this.endX) {
+                let posX = curX + (this.randomRange * 2 * (Math.random() - 0.5));
+                let posY = curY + (this.randomRange * 2 * (Math.random() - 0.5));
+                let pos = cc.p(posX, posY);
+                this.locList.push(pos);
+                // let ph = cc.instantiate(this.icon);
+                // this.layer.addChild(ph);
+                // ph.setPosition(pos);
+                curX += this.initMarginX;
+            }
+            curY -= this.initMarginY;
+            this.initMarginX += this.marginIncX;
+            this.initMarginY += this.marginIncY;
         }
     },
 
