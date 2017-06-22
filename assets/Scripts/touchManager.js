@@ -41,16 +41,29 @@ cc.Class({
     onKeyDown (event) {
         switch(event.keyCode) {
             case cc.KEY.up:
-                this.camera.zoomRatio *= 0.95;
+                this.camera.zoomRatio *= 0.9;
                 break;
             case cc.KEY.down:
-                this.camera.zoomRatio *= 1.05;
+                this.camera.zoomRatio *= 1.1;
                 break;
         }
+        this.checkCameraZoom();
     },    
 
     onMouseWheel (event) {
-        this.camera.zoomRatio *= (100 - event._scrollY/3) / 100;
+        this.camera.zoomRatio *= (100 + event._scrollY/4) / 100;
+        this.checkCameraZoom();
+    },
+
+    checkCameraZoom () {
+        let width = (cc.view.getVisibleSize().width) / this.camera.zoomRatio;
+        let height = (cc.view.getVisibleSize().height) / this.camera.zoomRatio;
+        if (width >= this.game.spawner.groundNode.width) {
+            this.camera.zoomRatio = cc.view.getVisibleSize().width / this.game.spawner.groundNode.width;
+        }
+        if (height >= this.game.spawner.groundNode.height * 2) {
+            this.camera.zoomRatio = cc.view.getVisibleSize().height / this.game.spawner.groundNode.height;
+        }
     },
 
     onDestroy: function () {
@@ -91,6 +104,7 @@ cc.Class({
         if(!this.isTouchLight) {
             this.camera.node.x -= deltaX * 1.5;
             this.camera.node.y -= deltaY * 1.5;
+            this.checkCameraBoundaries();
             return;
         }
 
@@ -102,7 +116,11 @@ cc.Class({
         {
             this.camera.node.x += deltaX;
             this.camera.node.y += deltaY;
+            this.checkCameraBoundaries();
+            return;
         }
+
+
 
         event.stopPropagation();
         var touchMovePos = this.treeRootNode.convertToNodeSpaceAR(cc.Camera.main.getCameraToWorldPoint(event.getLocation()));
@@ -123,6 +141,27 @@ cc.Class({
         // }
         this.lightPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance));
         this.endPos = cc.pSub(this.startPos, cc.pMult(cc.pNormalize(this.newPos), this.distance - this.lightList[0].width / 2));
+    },
+
+    checkCameraBoundaries() {
+        let width = (cc.view.getVisibleSize().width / 2) / this.camera.zoomRatio;
+        let height = (cc.view.getVisibleSize().height / 2) / this.camera.zoomRatio;
+        let minX = this.camera.node.x - width;
+        let maxX = this.camera.node.x + width;
+        let minY = this.camera.node.y - height;
+        let maxY = this.camera.node.y + height;
+        if (minX < this.game.leftBound) {
+            this.camera.node.x = this.game.leftBound + width;
+        }
+        if (minY < this.game.bottomBound) {
+            this.camera.node.y = this.game.bottomBound + height;
+        }
+        if (maxX > this.game.rightBound) {
+            this.camera.node.x = this.game.rightBound - width;
+        }
+        if (maxY > this.game.topBound) {
+            this.camera.node.y = this.game.topBound - height;
+        }        
     },
     
     onTouchEnd: function (event) {

@@ -26,7 +26,11 @@ cc.Class({
         strHints: [cc.String],
         labelHint: cc.Label,
         hintDuration: 0,
-        timePerHint: 0
+        timePerHint: 0,
+        leftBound:0,
+        rightBound:0,
+        topBound:0,
+        bottomBound: 0
     },
 
     // use this for initialization
